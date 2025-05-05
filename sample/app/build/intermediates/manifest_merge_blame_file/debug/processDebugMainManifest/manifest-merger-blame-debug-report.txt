@@ -1,0 +1,298 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.iritech.android.irissample"
+4    android:testOnly="false"
+5    android:versionCode="2020126"
+6    android:versionName="2.0.20126" >
+7
+8    <uses-sdk
+9        android:minSdkVersion="21"
+10        android:targetSdkVersion="35" />
+11
+12    <uses-feature
+12-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:5:5-7:36
+13        android:name="android.hardware.camera"
+13-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:6:9-47
+14        android:required="false" />
+14-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:7:9-33
+15
+16    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+16-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:9:5-75
+16-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:9:22-72
+17    <uses-permission android:name="android.permission.VIBRATE" />
+17-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:10:5-66
+17-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:10:22-63
+18    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+18-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:11:5-71
+18-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:11:22-68
+19    <uses-permission android:name="android.permission.WAKE_LOCK" />
+19-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:12:5-68
+19-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:12:22-65
+20    <uses-permission android:name="android.permission.INTERNET" />
+20-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:13:5-67
+20-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:13:22-64
+21    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+21-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:14:5-79
+21-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:14:22-76
+22    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+22-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:15:5-81
+22-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:15:22-78
+23    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+23-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:16:5-79
+23-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:16:22-76
+24    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+24-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:17:5-79
+24-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:17:22-76
+25    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+25-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:18:5-80
+25-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:18:22-77
+26    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+26-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:19:5-81
+26-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:19:22-78
+27    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+27-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:20:5-76
+27-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:20:22-73
+28    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+28-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:21:5-75
+28-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:21:22-72
+29    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+29-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:22:5-75
+29-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:22:22-72
+30    <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
+30-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:23:5-77
+30-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:23:22-74
+31    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+31-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:24:5-76
+31-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:24:22-73
+32    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+32-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:25:5-76
+32-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:25:22-73
+33    <uses-permission android:name="android.permission.UPDATE_DEVICE_STATE" />
+33-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:26:5-78
+33-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:26:22-75
+34    <uses-permission android:name="android.permission.CAMERA" />
+34-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:27:5-65
+34-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:27:22-62
+35    <uses-permission android:name="android.permission.BLUETOOTH" />
+35-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:28:5-68
+35-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:28:22-65
+36    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+36-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:29:5-74
+36-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:29:22-71
+37    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+37-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:30:5-75
+37-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:30:22-72
+38    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+38-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:31:5-77
+38-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:31:22-74
+39    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+39-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:32:5-74
+39-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:32:22-71
+40    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+40-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:33:5-81
+40-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:33:22-78
+41    <uses-permission android:name="android.permission.GET_TASKS" />
+41-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:34:5-68
+41-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:34:22-65
+42    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
+42-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:35:5-74
+42-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:35:22-71
+43    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
+43-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:36:5-75
+43-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:36:22-72
+44    <uses-permission android:name="com.id2mp.permissions.IRIS" />
+44-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:37:5-66
+44-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:37:22-63
+45
+46    <!-- Required by older versions of Google Play services to create GCM registration tokens -->
+47    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+47-->[com.google.android.gms:play-services-gcm:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\7976bda21b296775b92ed2ce5a11a655\transformed\jetified-play-services-gcm-17.0.0\AndroidManifest.xml:23:5-82
+47-->[com.google.android.gms:play-services-gcm:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\7976bda21b296775b92ed2ce5a11a655\transformed\jetified-play-services-gcm-17.0.0\AndroidManifest.xml:23:22-79
+48    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+48-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:11:5-81
+48-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:11:22-78
+49    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+49-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:12:5-80
+49-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:12:22-77
+50    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+50-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:18:5-84
+50-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:18:22-81
+51    <uses-permission android:name="android.permission.READ_LOGS" />
+51-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:24:5-68
+51-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:24:22-65
+52    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+52-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:28:5-73
+52-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:28:22-70
+53    <uses-permission android:name="android.permission.SET_TIME_ZONE" />
+53-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:31:5-72
+53-->[:iricapture+] C:\Users\quang\.gradle\caches\8.11.1\transforms\19686afef07df8dadb3e9bba4c3be52c\transformed\jetified-iricapture+\AndroidManifest.xml:31:22-69
+54
+55    <permission
+55-->[androidx.core:core:1.13.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\669202d29b16b7d56e852d5167ee1fd9\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
+56        android:name="com.iritech.android.irissample.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+56-->[androidx.core:core:1.13.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\669202d29b16b7d56e852d5167ee1fd9\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
+57        android:protectionLevel="signature" />
+57-->[androidx.core:core:1.13.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\669202d29b16b7d56e852d5167ee1fd9\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
+58
+59    <uses-permission android:name="com.iritech.android.irissample.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+59-->[androidx.core:core:1.13.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\669202d29b16b7d56e852d5167ee1fd9\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
+59-->[androidx.core:core:1.13.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\669202d29b16b7d56e852d5167ee1fd9\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
+60
+61    <application
+61-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:39:5-73:19
+62        android:allowBackup="true"
+62-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:40:9-35
+63        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+63-->[androidx.core:core:1.13.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\669202d29b16b7d56e852d5167ee1fd9\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
+64        android:debuggable="true"
+65        android:extractNativeLibs="true"
+66        android:icon="@drawable/ic_app_logo"
+66-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:41:9-45
+67        android:label="@string/app_name"
+67-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:42:9-41
+68        android:requestLegacyExternalStorage="true"
+68-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:43:9-52
+69        android:supportsRtl="true"
+69-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:44:9-35
+70        android:testOnly="true"
+71        android:theme="@style/AppTheme" >
+71-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:45:9-40
+72        <activity
+72-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:46:9-48:40
+73            android:name="com.iritech.irissample.VerifyActivity"
+73-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:47:13-43
+74            android:exported="false" />
+74-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:48:13-37
+75        <activity
+75-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:49:9-51:40
+76            android:name="com.iritech.irissample.EnrollActivity"
+76-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:50:13-43
+77            android:exported="false" />
+77-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:51:13-37
+78        <activity
+78-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:52:9-62:20
+79            android:name="com.iritech.irissample.MainActivity"
+79-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:53:13-41
+80            android:exported="true"
+80-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:54:13-36
+81            android:screenOrientation="portrait"
+81-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:55:13-49
+82            android:theme="@style/AppTheme.NoActionBar" >
+82-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:56:13-56
+83            <intent-filter>
+83-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:57:13-61:29
+84                <action android:name="android.intent.action.MAIN" />
+84-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:58:17-69
+84-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:58:25-66
+85
+86                <category android:name="android.intent.category.LAUNCHER" />
+86-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:60:17-77
+86-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:60:27-74
+87            </intent-filter>
+88        </activity>
+89
+90        <provider
+91            android:name="androidx.core.content.FileProvider"
+91-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:65:13-62
+92            android:authorities="com.iritech.android.irissample.provider"
+92-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:66:13-60
+93            android:exported="false"
+93-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:67:13-37
+94            android:grantUriPermissions="true" >
+94-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:68:13-47
+95            <meta-data
+95-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:69:13-71:54
+96                android:name="android.support.FILE_PROVIDER_PATHS"
+96-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:70:17-67
+97                android:resource="@xml/file_paths" />
+97-->C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\app\src\main\AndroidManifest.xml:71:17-51
+98        </provider>
+99
+100        <activity
+100-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:9-22:20
+101            android:name="com.iritech.iris.CaptureActivity"
+101-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:17:13-60
+102            android:label="@string/title_activity_iri"
+102-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:18:13-55
+103            android:noHistory="false"
+103-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:19:13-38
+104            android:screenOrientation="portrait"
+104-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:20:13-49
+105            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+105-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:21:13-69
+106        </activity>
+107        <activity android:name="com.iritech.iris.TestActivity" />
+107-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:23:9-66
+107-->[:iris] C:\Users\quang\OneDrive\Documents\IriTech\iricaptureplus_r20126\sample\iris\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:23:19-63
+108        <activity
+108-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\57b41a10848b122455bcd491528ebcc8\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+109            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+109-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\57b41a10848b122455bcd491528ebcc8\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+110            android:exported="false"
+110-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\57b41a10848b122455bcd491528ebcc8\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+111            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+111-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\57b41a10848b122455bcd491528ebcc8\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+112
+113        <meta-data
+113-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\ce122eba6d226e9f93729469b227af49\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+114            android:name="com.google.android.gms.version"
+114-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\ce122eba6d226e9f93729469b227af49\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+115            android:value="@integer/google_play_services_version" />
+115-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\ce122eba6d226e9f93729469b227af49\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+116
+117        <provider
+117-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:24:9-32:20
+118            android:name="androidx.startup.InitializationProvider"
+118-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:25:13-67
+119            android:authorities="com.iritech.android.irissample.androidx-startup"
+119-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:26:13-68
+120            android:exported="false" >
+120-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:27:13-37
+121            <meta-data
+121-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+122                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+122-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+123                android:value="androidx.startup" />
+123-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+124        </provider>
+125
+126        <receiver
+126-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+127            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+127-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+128            android:directBootAware="false"
+128-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+129            android:enabled="true"
+129-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+130            android:exported="true"
+130-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+131            android:permission="android.permission.DUMP" >
+131-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+132            <intent-filter>
+132-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+133                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+133-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+133-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+134            </intent-filter>
+135            <intent-filter>
+135-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+136                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+136-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+136-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+137            </intent-filter>
+138            <intent-filter>
+138-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+139                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+139-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+139-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+140            </intent-filter>
+141            <intent-filter>
+141-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+142                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+142-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+142-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\quang\.gradle\caches\8.11.1\transforms\c40820a1ce7618c487db4a0d73cbff5b\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+143            </intent-filter>
+144        </receiver>
+145    </application>
+146
+147</manifest>

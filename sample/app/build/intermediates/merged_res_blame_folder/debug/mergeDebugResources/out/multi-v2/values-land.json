@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.iritech.irissample.app-mergeDebugResources-31:/values-land/values-land.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\quang\\.gradle\\caches\\8.11.1\\transforms\\40e7f7ffd227068ebd34c4c3bf2dbf94\\transformed\\material-1.0.0\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "10",
+                        "endOffsets": "222"
+                    },
+                    "to": {
+                        "startLines": "5",
+                        "startColumns": "4",
+                        "startOffsets": "264",
+                        "endLines": "8",
+                        "endColumns": "10",
+                        "endOffsets": "431"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\quang\\.gradle\\caches\\8.11.1\\transforms\\28af7dcf6ae77780bdfb7f07add1bf15\\transformed\\appcompat-1.1.0\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
+                    }
+                }
+            ]
+        }
+    ]
+}

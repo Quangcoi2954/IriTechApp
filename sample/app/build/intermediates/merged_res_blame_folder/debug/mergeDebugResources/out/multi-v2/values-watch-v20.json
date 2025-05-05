@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.iritech.irissample.app-mergeDebugResources-31:/values-watch-v20/values-watch-v20.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\quang\\.gradle\\caches\\8.11.1\\transforms\\28af7dcf6ae77780bdfb7f07add1bf15\\transformed\\appcompat-1.1.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,214,385",
+                        "endLines": "4,7,10",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "209,380,553"
+                    }
+                }
+            ]
+        }
+    ]
+}

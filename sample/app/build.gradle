@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        ubioxiris {
+            storeFile file('./keystore/debug.keystore_ubioxPro')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
+
+    compileSdkVersion 35
+    buildToolsVersion "35.0.0"
+    defaultConfig {
+        applicationId "com.iritech.android.irissample"
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 2020126
+        versionName "2.0.20126"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        signingConfig signingConfigs.ubioxiris
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+            }
+        }
+        ndk {
+            // Specifies the ABI configurations of your native
+            // libraries Gradle should build and package with your APK.
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.ubioxiris
+        }
+        debug{
+            signingConfig signingConfigs.ubioxiris
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    ndkVersion '16.1.4479499'
+    namespace 'com.iritech.irissample'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.activity:activity:1.10.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation project(path: ':iris')
+    implementation project(path: ':iricapture+')
+    //implementation project(path: ':mqel_irisreg704')
+    //implementation project(path: ':secretkeygenerator')
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
+
+    // InstanceID
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
+
+    implementation 'androidx.annotation:annotation:1.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+}
