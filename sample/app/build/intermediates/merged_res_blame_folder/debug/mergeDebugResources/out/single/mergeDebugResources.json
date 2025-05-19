@@ -136,6 +136,10 @@
         "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\mipmap-xhdpi\\ic_successful_round.webp"
     },
     {
+        "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\layout_activity_identify.xml.flat",
+        "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\layout\\activity_identify.xml"
+    },
+    {
         "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\layout_dialog_successful.xml.flat",
         "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\layout\\dialog_successful.xml"
     },

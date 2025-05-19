@@ -8,11 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +25,8 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -38,7 +36,6 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +51,8 @@ public class EnrollActivity extends AppCompatActivity {
     private Uri imageUri;
     private Bitmap bitmap;
 
+    DatabaseHelper dbHelper = new DatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,19 +64,58 @@ public class EnrollActivity extends AppCompatActivity {
 
         String userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getString("userId", null);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        Button btnSave = findViewById(R.id.bt_save);
 
         if (dbHelper.isUserIdExists(userId)) {
             renderInforUser(userId, editUserEmail, editUserPhone, editUserName);
+
+            String originalName = editUserName.getText().toString().trim();
+            String originalEmail = editUserEmail.getText().toString().trim();
+            String originalPhone = editUserPhone.getText().toString().trim();
+
+//            byte[] avatarBytes = dbHelper.getUserAvatar(Integer.parseInt(userId));
+//            if (avatarBytes != null) {
+//                bitmap = BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
+//            }
+
+            TextWatcher watcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    checkChanges(originalName, originalEmail, originalPhone);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            };
+
+            editUserName.addTextChangedListener(watcher);
+            editUserEmail.addTextChangedListener(watcher);
+            editUserPhone.addTextChangedListener(watcher);
         }
 
-        Button btnSave = findViewById(R.id.bt_save);
+        if(!dbHelper.isUserIdExists(userId)) {
+            btnSave.setEnabled(true);
+        }
+        else {
+            btnSave.setEnabled(false);
+        }
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = editUserName.getText().toString().trim();
                 String phone = editUserPhone.getText().toString().trim();
                 String email = editUserEmail.getText().toString().trim();
+
+                if(dbHelper.isUserIdExists(userId)) {
+                    byte[] avatarBytes = dbHelper.getUserAvatar(Integer.parseInt(userId));
+                    if (avatarBytes != null) {
+                        bitmap = BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
+                    }
+                }
 
                 if(name.isEmpty() || phone.isEmpty() || email.isEmpty() || bitmap == null) {
                     showWarningDialog("Please enter the full information before saving!");
@@ -120,6 +158,20 @@ public class EnrollActivity extends AppCompatActivity {
                 showOptionsDialog("Choose your options");
             }
         });
+    }
+
+    private void checkChanges(String originalName, String originalEmail, String originalPhone) {
+        String currentName = editUserName.getText().toString().trim();
+        String currentEmail = editUserEmail.getText().toString().trim();
+        String currentPhone = editUserPhone.getText().toString().trim();
+
+        boolean changed = !currentName.equals(originalName) ||
+                !currentEmail.equals(originalEmail) ||
+                !currentPhone.equals(originalPhone);//||
+                //(bitmap != null && currentBitmap != null && !bitmap.sameAs(currentBitmap));
+
+        Button btnSave = findViewById(R.id.bt_save);
+        btnSave.setEnabled(changed);
     }
 
     private void renderInforUser(String userId, EditText editUserEmail, EditText editUserPhone, EditText editUserName) {
@@ -239,15 +291,17 @@ public class EnrollActivity extends AppCompatActivity {
                                     bitmap = resource;
                                     imageAvatar.setImageBitmap(bitmap);
                                     Log.d("EnrollActivity", "Bitmap loaded from gallery: " + bitmap.getWidth() + "x" + bitmap.getHeight());
+
+                                    //checkChanges(null, null, null, bitmap);
                                 }
 
                                 @Override
-                                public void onLoadCleared(@Nullable android.graphics.drawable.Drawable placeholder) {
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
                                     // Không cần xử lý trong trường hợp này
                                 }
 
                                 @Override
-                                public void onLoadFailed(@Nullable android.graphics.drawable.Drawable errorDrawable) {
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     Log.e("EnrollActivity", "Failed to load image from gallery");
                                     Toast.makeText(EnrollActivity.this, "Failed to load image", Toast.LENGTH_SHORT).show();
                                 }
@@ -268,15 +322,17 @@ public class EnrollActivity extends AppCompatActivity {
                                     bitmap = resource;
                                     imageAvatar.setImageBitmap(bitmap);
                                     Log.d("EnrollActivity", "Bitmap loaded from camera: " + bitmap.getWidth() + "x" + bitmap.getHeight());
+
+                                    //checkChanges(null, null, null, bitmap);
                                 }
 
                                 @Override
-                                public void onLoadCleared(@Nullable android.graphics.drawable.Drawable placeholder) {
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
                                     // Không cần xử lý trong trường hợp này
                                 }
 
                                 @Override
-                                public void onLoadFailed(@Nullable android.graphics.drawable.Drawable errorDrawable) {
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     Log.e("EnrollActivity", "Failed to load image from camera");
                                     Toast.makeText(EnrollActivity.this, "Failed to load camera image", Toast.LENGTH_SHORT).show();
                                 }

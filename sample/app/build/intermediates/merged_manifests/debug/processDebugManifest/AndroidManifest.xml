@@ -70,6 +70,9 @@
         android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
+            android:name="com.iritech.irissample.IdentifyActivity"
+            android:exported="false" />
+        <activity
             android:name="com.iritech.irissample.VerifyActivity"
             android:exported="false" />
         <activity

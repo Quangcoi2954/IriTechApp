@@ -214,10 +214,6 @@ public class MainActivity extends AppCompatActivity {
         }
         mUserId = editUserId.getText().toString().trim();
 
-//        Intent intentUser = new Intent(MainActivity.this, EnrollActivity.class);
-//        intentUser.putExtra("userId", mUserId); // truyền userId
-//        startActivity(intentUser);
-
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("userId", mUserId);
@@ -287,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (data != null) {
             int resultCodeExt = data.getIntExtra(Constants.EXTRA_RESULT_CODE, -1);
             mResultCode = resultCodeExt;
@@ -295,12 +292,6 @@ public class MainActivity extends AppCompatActivity {
         if (mResultCode != GemResult.IDDK_UVC_DEVICE_ACCESS_DENIED){
             if (resultCode == RESULT_OK) {
                 processResult(requestCode, data);
-
-//                Sau khi xử lý xong thì chuyển sang màn hình mới
-//                Intent intent = new Intent(this, EnrollActivity.class);
-//                intent.putExtra("userId", mUserId); // nếu muốn truyền userId
-//                startActivity(intent);
-
             } else {
                 Toast.makeText(getApplicationContext(), "Capture activity failed", Toast.LENGTH_LONG).show();
             }
@@ -314,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
         else if (requestCode == REQUEST_CODE_ENROLL) {
             processCaptureResult(data, enrollImgPath, mUserId, "best");
             // Sau khi xử lý xong thì chuyển sang màn hình mới
-            Intent intent = new Intent(this, EnrollActivity.class);
+            Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
             intent.putExtra("userId", mUserId); // nếu muốn truyền userId
             startActivity(intent);
         }
@@ -337,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                     if (matchingResult) {
                         msg = "Verify Successfully";
 
-//                        Intent intent = new Intent(this, VerifyActivity.class);
+//                        Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
 //                        intent.putExtra("userId", mUserId); // nếu muốn truyền userId
 //                        startActivity(intent);
                     } else {
@@ -346,11 +337,45 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else if (requestCode == REQUEST_CODE_IDENTIFY) {
+
+//                int resultCount = data.getIntExtra(Constants.EXTRA_MATCHING_COUNT, 0);
+//                String resultItems = data.getStringExtra(Constants.EXTRA_MATCHING_ITEMS);
+//                msg = "Matched with " + resultCount + " user(s): " + resultItems;
+//
+//                Log.d("DEBUG", "Matched count: " + resultCount);
+//                Log.d("DEBUG", "EXTRA_MATCHING_ITEMS: " + resultItems);
+//
+//                if (resultItems != null) {
+//                    String[] matchedIds = resultItems.split(",");
+//                    for (String id : matchedIds) {
+//                        Log.d("DEBUG", "Matched userId: " + id);
+//                    }
+//                }
+
                 if (resultCode == 0)
                 {
                     int resultCount = data.getIntExtra(Constants.EXTRA_MATCHING_COUNT, 0);
                     String resultItems = data.getStringExtra(Constants.EXTRA_MATCHING_ITEMS);
+
+                    Log.d("Identify", "Matched resultItems = " + resultItems);
+
                     msg = "Matched with " + resultCount + " user(s): " + resultItems;
+
+                    if (resultItems != null && !resultItems.isEmpty()) {
+                        // Dự đoán định dạng: "userId,score;userId,score"
+                        String[] matches = resultItems.split(";");
+                        if (matches.length > 0) {
+                            String[] parts = matches[0].split(",");
+                            String identifiedUserId = parts[0]; // lấy userId đầu tiên
+                            Log.d("Identify", "Identified userId: " + identifiedUserId);
+
+                            // Gửi userId sang màn hình khác (ví dụ)
+                            Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
+                            intent.putExtra("userId", identifiedUserId);
+                            startActivity(intent);
+                        }
+                    }
+                    
                 }
             }
             else {
