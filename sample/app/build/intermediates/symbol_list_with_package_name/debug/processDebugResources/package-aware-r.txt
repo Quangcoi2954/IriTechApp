@@ -1158,6 +1158,8 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable fake_left
+drawable fake_right
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_app_logo
@@ -1525,10 +1527,13 @@ id user_email_container
 id user_id
 id user_id_container
 id user_infor_container
+id user_iris_container
+id user_left_iris
 id user_name
 id user_name_container
 id user_phone
 id user_phone_container
+id user_right_iris
 id view_offset_helper
 id view_tree_disjoint_parent
 id view_tree_lifecycle_owner

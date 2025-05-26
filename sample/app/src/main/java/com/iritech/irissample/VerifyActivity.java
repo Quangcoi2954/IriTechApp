@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,6 +54,26 @@ public class VerifyActivity extends AppCompatActivity {
         phoneText = findViewById(R.id.user_phone);
         nameText = findViewById(R.id.user_name);
         idText = findViewById(R.id.user_id);
+
+        Intent intent = getIntent();
+        Bitmap leftBitmap = intent.getParcelableExtra("leftRenderBm");
+        Bitmap rightBitmap = intent.getParcelableExtra("rightRenderBm");
+        Log.d("DEBUG_FAKE_VERIFY", "rightBm: " + rightBitmap);
+        Log.d("DEBUG_FAKE_VERIFY", "leftBm: " + leftBitmap);
+
+        ImageView leftImageView = findViewById(R.id.user_left_iris);
+        ImageView rightImageView = findViewById(R.id.user_right_iris);
+
+        if (leftBitmap != null) {
+            leftImageView.setImageBitmap(leftBitmap);
+        } else {
+            leftImageView.setVisibility(View.GONE);
+        }
+        if (rightBitmap != null) {
+            rightImageView.setImageBitmap(rightBitmap);
+        } else {
+            rightImageView.setVisibility(View.GONE);
+        }
 
         EnrollActivity.DatabaseHelper dbHelper = new EnrollActivity.DatabaseHelper(this);
 

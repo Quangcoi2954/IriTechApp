@@ -12,6 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,7 +52,7 @@ public class EnrollActivity extends AppCompatActivity {
     private ImageView imageAvatar;
     private Uri imageUri;
     private Bitmap bitmap;
-
+    private String userId;
     DatabaseHelper dbHelper = new DatabaseHelper(this);
 
     @Override
@@ -62,45 +64,67 @@ public class EnrollActivity extends AppCompatActivity {
         editUserPhone = findViewById(R.id.edit_phone);
         editUserEmail = findViewById(R.id.edit_email);
 
-        String userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getString("userId", null);
+        userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getString("userId", null);
 
         Button btnSave = findViewById(R.id.bt_save);
 
+        Intent intent = getIntent();
+        Bitmap leftBitmap = intent.getParcelableExtra("leftRenderBm");
+        Bitmap rightBitmap = intent.getParcelableExtra("rightRenderBm");
+        Log.d("DEBUG_FAKE_ENROLL", "rightBm: " + rightBitmap);
+        Log.d("DEBUG_FAKE_ENROLL", "leftBm: " + leftBitmap);
+
+        ImageView leftImageView = findViewById(R.id.user_left_iris);
+        ImageView rightImageView = findViewById(R.id.user_right_iris);
+
+        if (leftBitmap != null) {
+            leftImageView.setImageBitmap(leftBitmap);
+        } else {
+            leftImageView.setVisibility(View.GONE);
+        }
+        if (rightBitmap != null) {
+            rightImageView.setImageBitmap(rightBitmap);
+        } else {
+            rightImageView.setVisibility(View.GONE);
+        }
+
         if (dbHelper.isUserIdExists(userId)) {
             renderInforUser(userId, editUserEmail, editUserPhone, editUserName);
-
-            String originalName = editUserName.getText().toString().trim();
-            String originalEmail = editUserEmail.getText().toString().trim();
-            String originalPhone = editUserPhone.getText().toString().trim();
-
-//            byte[] avatarBytes = dbHelper.getUserAvatar(Integer.parseInt(userId));
-//            if (avatarBytes != null) {
-//                bitmap = BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
-//            }
-
-            TextWatcher watcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    checkChanges(originalName, originalEmail, originalPhone);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {}
-            };
-
-            editUserName.addTextChangedListener(watcher);
-            editUserEmail.addTextChangedListener(watcher);
-            editUserPhone.addTextChangedListener(watcher);
         }
+
+        String originalName = editUserName.getText().toString().trim();
+        String originalEmail = editUserEmail.getText().toString().trim();
+        String originalPhone = editUserPhone.getText().toString().trim();
+
+        byte[] avatarBytes = dbHelper.getUserAvatar(Integer.parseInt(userId));
+        if (avatarBytes != null) {
+            bitmap = BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
+        }
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkChanges(originalName, originalEmail, originalPhone, bitmap, null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        editUserName.addTextChangedListener(watcher);
+        editUserEmail.addTextChangedListener(watcher);
+        editUserPhone.addTextChangedListener(watcher);
 
         if(!dbHelper.isUserIdExists(userId)) {
             btnSave.setEnabled(true);
+            btnSave.setAlpha(1.0f);
         }
         else {
             btnSave.setEnabled(false);
+            btnSave.setAlpha(0.5f);
         }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +133,6 @@ public class EnrollActivity extends AppCompatActivity {
                 String name = editUserName.getText().toString().trim();
                 String phone = editUserPhone.getText().toString().trim();
                 String email = editUserEmail.getText().toString().trim();
-
-                if(dbHelper.isUserIdExists(userId)) {
-                    byte[] avatarBytes = dbHelper.getUserAvatar(Integer.parseInt(userId));
-                    if (avatarBytes != null) {
-                        bitmap = BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
-                    }
-                }
 
                 if(name.isEmpty() || phone.isEmpty() || email.isEmpty() || bitmap == null) {
                     showWarningDialog("Please enter the full information before saving!");
@@ -127,17 +144,7 @@ public class EnrollActivity extends AppCompatActivity {
 
                     byte[] avatar = imageToByteArray(bitmap);
                     dbHelper.insertUser(userId, name, email, phone, avatar);
-                    Toast.makeText(getApplicationContext(), "Save successfully!", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(EnrollActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish(); // tuỳ chọn: đóng Activity hiện tại
-
-                    // Hiển thị danh sách người dùng
-                    List<String> userList = dbHelper.getAllUsers();
-                    for (String user : userList) {
-                        Log.d("DB_USER", user);
-                    }
+                    showSuccessDialog("Save successfully!");
                 }
             }
         });
@@ -160,18 +167,82 @@ public class EnrollActivity extends AppCompatActivity {
         });
     }
 
-    private void checkChanges(String originalName, String originalEmail, String originalPhone) {
+    private void checkChanges(String originalName, String originalEmail, String originalPhone, Bitmap bitmap, Bitmap currentBitmap) {
         String currentName = editUserName.getText().toString().trim();
         String currentEmail = editUserEmail.getText().toString().trim();
         String currentPhone = editUserPhone.getText().toString().trim();
 
+        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
         boolean changed = !currentName.equals(originalName) ||
                 !currentEmail.equals(originalEmail) ||
-                !currentPhone.equals(originalPhone);//||
-                //(bitmap != null && currentBitmap != null && !bitmap.sameAs(currentBitmap));
+                !currentPhone.equals(originalPhone) ||
+                (bitmap != null && currentBitmap != null && !bitmap.sameAs(currentBitmap));
 
         Button btnSave = findViewById(R.id.bt_save);
         btnSave.setEnabled(changed);
+
+        if(changed) {
+            btnSave.setAlpha(1.0f);
+        }
+        else {
+            btnSave.setAlpha(0.5f);
+        }
+
+        boolean isDupliactePhone = dbHelper.isUserPhoneExists(currentPhone);
+        boolean isDupliacteEmail = dbHelper.isUserEmailExists(currentEmail);
+        boolean isInvalidEmail = currentEmail.matches(emailPattern);
+        if(editUserPhone.isFocused())
+        {
+            if(!dbHelper.isUserIdExists(userId))
+            {
+                if(isDupliactePhone) {
+                    editUserPhone.setError("Phone number already exists");
+                    btnSave.setEnabled(isDupliactePhone);
+                    btnSave.setAlpha(0.5f);
+                }
+            }
+            else
+            {
+                if(!currentPhone.equals(originalPhone)) {
+                    if (isDupliactePhone) {
+                        editUserPhone.setError("Phone number already exists");
+                        btnSave.setEnabled(isDupliactePhone);
+                        btnSave.setAlpha(0.5f);
+                    }
+                }
+            }
+        }
+        else if (editUserEmail.isFocused())
+        {
+            if(!dbHelper.isUserIdExists(userId)) {
+                if (!isInvalidEmail) {
+                    editUserEmail.setError("Invalid email format");
+                    btnSave.setEnabled(isInvalidEmail);
+                    btnSave.setAlpha(0.5f);
+                } else if (isDupliacteEmail) {
+                    editUserEmail.setError("Email already exists");
+                    btnSave.setEnabled(isDupliacteEmail);
+                    btnSave.setAlpha(0.5f);
+                }
+            }
+            else
+            {
+                if(!currentEmail.equals(originalEmail)) {
+                    if (!isInvalidEmail) {
+                        editUserEmail.setError("Invalid email format");
+                        btnSave.setEnabled(isInvalidEmail);
+                        btnSave.setAlpha(0.5f);
+                    } else if (isDupliacteEmail) {
+                        editUserEmail.setError("Email already exists");
+                        btnSave.setEnabled(isDupliacteEmail);
+                        btnSave.setAlpha(0.5f);
+                    }
+                }
+            }
+        } else {
+            btnSave.setAlpha(1.0f);
+        }
     }
 
     private void renderInforUser(String userId, EditText editUserEmail, EditText editUserPhone, EditText editUserName) {
@@ -206,8 +277,16 @@ public class EnrollActivity extends AppCompatActivity {
         TextView txtMessage = dialogView.findViewById(R.id.txtMessage);
         txtMessage.setText(message);
 
+        dialog.setCancelable(false);
         dialog.show();
-        dialog.dismiss();
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            dialog.dismiss();
+
+            Intent intent = new Intent(EnrollActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }, 1500);
     }
 
     private void showWarningDialog(String message) {
@@ -292,7 +371,7 @@ public class EnrollActivity extends AppCompatActivity {
                                     imageAvatar.setImageBitmap(bitmap);
                                     Log.d("EnrollActivity", "Bitmap loaded from gallery: " + bitmap.getWidth() + "x" + bitmap.getHeight());
 
-                                    //checkChanges(null, null, null, bitmap);
+                                    checkChanges(null, null, null, null, bitmap);
                                 }
 
                                 @Override
@@ -323,7 +402,7 @@ public class EnrollActivity extends AppCompatActivity {
                                     imageAvatar.setImageBitmap(bitmap);
                                     Log.d("EnrollActivity", "Bitmap loaded from camera: " + bitmap.getWidth() + "x" + bitmap.getHeight());
 
-                                    //checkChanges(null, null, null, bitmap);
+                                    checkChanges(null, null, null, null, bitmap);
                                 }
 
                                 @Override
@@ -389,6 +468,12 @@ public class EnrollActivity extends AppCompatActivity {
             db.close();
         }
 
+        public void deleteAllUsers() {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("users", null, null);  // Xóa toàn bộ dòng trong bảng users
+            db.close();
+        }
+
         public boolean insertUser(String id, String name, String email, String phone, byte[] avatar) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -423,6 +508,22 @@ public class EnrollActivity extends AppCompatActivity {
         public boolean isUserIdExists(String id) {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT id FROM users WHERE id = ?", new String[]{id});
+            boolean exists = cursor.moveToFirst();
+            cursor.close();
+            return exists;
+        }
+
+        public boolean isUserPhoneExists(String phone) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT phone FROM users WHERE phone = ?", new String[]{phone});
+            boolean exists = cursor.moveToFirst();
+            cursor.close();
+            return exists;
+        }
+
+        public boolean isUserEmailExists(String email) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT email FROM users WHERE email = ?", new String[]{email});
             boolean exists = cursor.moveToFirst();
             cursor.close();
             return exists;

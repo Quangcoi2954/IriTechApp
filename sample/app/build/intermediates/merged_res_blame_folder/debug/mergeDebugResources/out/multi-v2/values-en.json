@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.iritech.irissample.app-mergeDebugResources-31:/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\quang\\OneDrive\\Documents\\IriTech\\iricaptureplus_r20126\\sample\\app\\src\\main\\res\\values-en\\strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "17",
+                        "endLines": "2",
+                        "endColumns": "13",
+                        "endOffsets": "79"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "3",
+                        "endColumns": "13",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}

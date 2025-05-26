@@ -25,19 +25,21 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="YOUR INFORMATION"
-        android:textSize="20dp"
-        android:layout_marginTop="60dp"
         android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/user_infor_container"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:padding="20dp"
         android:backgroundTint="#dac8ff"
         android:background="@drawable/border"
@@ -79,25 +81,51 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/user_iris_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/border"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_infor_container"
+        app:layout_constraintVertical_bias="0.011">
+
+        <ImageView
+            android:id="@+id/user_left_iris"
+            android:layout_width="180dp"
+            android:layout_height="150dp" />
+
+        <ImageView
+            android:id="@+id/user_right_iris"
+            android:layout_width="180dp"
+            android:layout_height="150dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/user_phone_container"
         android:layout_width="300dp"
         android:layout_height="70dp"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="#dac8ff"
         android:background="@drawable/border"
+        android:backgroundTint="#dac8ff"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:padding="10dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_infor_container"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        app:layout_constraintTop_toBottomOf="@+id/user_iris_container">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone"
-            android:textColor="#000000"/>
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/user_phone"
@@ -105,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Phone"
-            android:textColor="#000000"/>
+            android:textColor="#000000" />
     </LinearLayout>
 
     <LinearLayout

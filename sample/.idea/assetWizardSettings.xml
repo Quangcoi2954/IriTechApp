@@ -80,7 +80,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\quang\OneDrive\Pictures\success-icon-1024x1024-p8wk1o4x.png" />
+                                                <entry key="imagePath" value="C:\Users\quang\OneDrive\Pictures\Screenshots\Screenshot 2025-04-21 160857.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -112,7 +112,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_successful" />
+                                      <entry key="outputName" value="fake_right" />
                                       <entry key="previewDensity" value="hdpi" />
                                       <entry key="showSafeZone" value="false" />
                                     </map>

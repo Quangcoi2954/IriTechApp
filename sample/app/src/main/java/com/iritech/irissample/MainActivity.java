@@ -13,10 +13,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.iritech.android.widget.alertdialog.BestImageDialog;
 import com.iritech.android.widget.alertdialog.SettingDialog;
 import com.iritech.android.widget.alertdialog.RegisterLicenseDialog;
@@ -43,6 +50,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -85,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     private int mRequestCode;
 
     DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+    private boolean isTestMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if((actionType.equals(Constants.ACTION_VERIFY)) || (actionType.equals(Constants.ACTION_UNENROLL))) {
+        if((actionType.equals(Constants.ACTION_VERIFY))) { // || (actionType.equals(Constants.ACTION_UNENROLL))) {
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             if (!dbHelper.isUserIdExists(mUserId)) {
                 showWarningDialog("User ID does not exist!");
@@ -299,15 +309,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processResult(int requestCode, Intent data) {
+
+        Bitmap leftRenderBm = null;
+        Bitmap rightRenderBm = null;
+        Bitmap unknownRenderBm = null;
+
         if (requestCode == REQUEST_CODE_CAPTURE) {
             processCaptureResult(data, verifyImgPath, mUserId, "best");
         }
         else if (requestCode == REQUEST_CODE_ENROLL) {
             processCaptureResult(data, enrollImgPath, mUserId, "best");
-            // Sau khi xử lý xong thì chuyển sang màn hình mới
-            Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
-            intent.putExtra("userId", mUserId); // nếu muốn truyền userId
-            startActivity(intent);
+
+            boolean matchingResult = data.getBooleanExtra(Constants.EXTRA_MATCHING_RESULT, false);
+            Log.d("DEBUG_ENROLL", "matchingResult: " + matchingResult);
+            if (matchingResult) {
+                showWarningDialog("Enroll Duplicate!");
+            }
+            else {
+                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                leftRenderBm = pair.first;
+                Log.d("DEBUG_FAKE_ENROLL", "leftRenderBm: " + leftRenderBm);
+                rightRenderBm = pair.second;
+                Log.d("DEBUG_FAKE_ENROLL", "rightRenderBm: " + rightRenderBm);
+
+                Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
+                intent.putExtra("userId", mUserId);
+                intent.putExtra("leftRenderBm", leftRenderBm);
+                intent.putExtra("rightRenderBm", rightRenderBm);
+                startActivity(intent);
+            }
         }
         else {
             Bitmap leftBm = null;
@@ -319,8 +349,17 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == REQUEST_CODE_VERIFY) {
 
                 //TEST
-                Intent intent = new Intent(this, VerifyActivity.class);
-                intent.putExtra("userId", mUserId); // nếu muốn truyền userId
+
+                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                leftRenderBm = pair.first;
+                Log.d("DEBUG_FAKE_VERIFY", "leftRenderBm: " + leftRenderBm);
+                rightRenderBm = pair.second;
+                Log.d("DEBUG_FAKE_VERIFY", "rightRenderBm: " + rightRenderBm);
+
+                Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
+                intent.putExtra("userId", mUserId);
+                intent.putExtra("leftRenderBm", leftRenderBm);
+                intent.putExtra("rightRenderBm", rightRenderBm);
                 startActivity(intent);
 
                 if (resultCode == 0) {
@@ -328,9 +367,20 @@ public class MainActivity extends AppCompatActivity {
                     if (matchingResult) {
                         msg = "Verify Successfully";
 
+                        //THUC TE
+
+//                        Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+//                        leftRenderBm = pair.first;
+//                        Log.d("DEBUG_FAKE_VERIFY", "leftRenderBm: " + leftRenderBm);
+//                        rightRenderBm = pair.second;
+//                        Log.d("DEBUG_FAKE_VERIFY", "rightRenderBm: " + rightRenderBm);
+//
 //                        Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
-//                        intent.putExtra("userId", mUserId); // nếu muốn truyền userId
+//                        intent.putExtra("userId", mUserId);
+//                        intent.putExtra("leftRenderBm", leftRenderBm);
+//                        intent.putExtra("rightRenderBm", rightRenderBm);
 //                        startActivity(intent);
+
                     } else {
                         msg = "Verify failed! Not matched";
                     }
@@ -338,49 +388,57 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (requestCode == REQUEST_CODE_IDENTIFY) {
 
-//                int resultCount = data.getIntExtra(Constants.EXTRA_MATCHING_COUNT, 0);
-//                String resultItems = data.getStringExtra(Constants.EXTRA_MATCHING_ITEMS);
-//                msg = "Matched with " + resultCount + " user(s): " + resultItems;
-//
-//                Log.d("DEBUG", "Matched count: " + resultCount);
-//                Log.d("DEBUG", "EXTRA_MATCHING_ITEMS: " + resultItems);
-//
-//                if (resultItems != null) {
-//                    String[] matchedIds = resultItems.split(",");
-//                    for (String id : matchedIds) {
-//                        Log.d("DEBUG", "Matched userId: " + id);
-//                    }
-//                }
+                //TEST
+                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                leftRenderBm = pair.first;
+                rightRenderBm = pair.second;
+                Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
+                intent.putExtra("userId", String.valueOf(1));
+                intent.putExtra("leftRenderBm", leftRenderBm);
+                Log.d("DEBUG_FAKE_IDENTIFY", "leftRenderBm: " + leftRenderBm);
+                intent.putExtra("rightRenderBm", rightRenderBm);
+                Log.d("DEBUG_FAKE_IDENTIFY", "rightRenderBm: " + rightRenderBm);
+                startActivity(intent);
 
                 if (resultCode == 0)
                 {
                     int resultCount = data.getIntExtra(Constants.EXTRA_MATCHING_COUNT, 0);
                     String resultItems = data.getStringExtra(Constants.EXTRA_MATCHING_ITEMS);
 
-                    Log.d("Identify", "Matched resultItems = " + resultItems);
-
                     msg = "Matched with " + resultCount + " user(s): " + resultItems;
 
-                    if (resultItems != null && !resultItems.isEmpty()) {
-                        // Dự đoán định dạng: "userId,score;userId,score"
-                        String[] matches = resultItems.split(";");
-                        if (matches.length > 0) {
-                            String[] parts = matches[0].split(",");
-                            String identifiedUserId = parts[0]; // lấy userId đầu tiên
-                            Log.d("Identify", "Identified userId: " + identifiedUserId);
+                    int idValue = 0;
 
-                            // Gửi userId sang màn hình khác (ví dụ)
-                            Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
-                            intent.putExtra("userId", identifiedUserId);
-                            startActivity(intent);
-                        }
+                    if (resultItems != null && !resultItems.isEmpty()) {
+                        String[] parts = resultItems.split(",");
+                        String idPart = parts[0]; // "ID: 123"
+                        String id = idPart.replace("ID:", "").trim(); // "123"
+
+                        Log.d("MainActivity", "ID: " + id);
+
+                        idValue = Integer.parseInt(id);
                     }
+
+//                    Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+//                    leftRenderBm = pair.first;
+//                    rightRenderBm = pair.second;
+//                    Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
+//                    intent.putExtra("userId", String.valueOf(1));
+//                    intent.putExtra("leftRenderBm", leftRenderBm);
+//                    Log.d("DEBUG_FAKE_IDENTIFY", "leftRenderBm: " + leftRenderBm);
+//                    intent.putExtra("rightRenderBm", rightRenderBm);
+//                    Log.d("DEBUG_FAKE_IDENTIFY", "rightRenderBm: " + rightRenderBm);
+//                    startActivity(intent);
                     
                 }
             }
             else {
                 if(dbHelper.isUserIdExists(mUserId)) {
                     dbHelper.deleteUserById(Integer.parseInt(mUserId));
+                    Toast.makeText(getApplicationContext(), "UNENROLL successfully!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    dbHelper.deleteAllUsers();
                     Toast.makeText(getApplicationContext(), "UNENROLL successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -390,6 +448,82 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
             dialog.setBestImages(leftBm, rightBm, unknownBm);
             dialog.setMessage(msg);
+        }
+    }
+
+    public Pair<Bitmap, Bitmap> processCaptureRender(Context context) {
+        // Kiểm tra context và đầu vào
+        if (context == null) {
+            throw new IllegalArgumentException("Context cannot be null");
+        }
+
+        if (isTestMode) {
+            Bitmap left = null;
+            Bitmap right = null;
+
+            try {
+                // Tải tài nguyên
+                left = BitmapFactory.decodeResource(context.getResources(), R.drawable.fake_left);
+                Log.d("DEBUG_FAKE", "left: " + left);
+                right = BitmapFactory.decodeResource(context.getResources(), R.drawable.fake_right);
+                Log.d("DEBUG_FAKE", "right: " + right);
+
+                if (left == null || right == null) {
+                    throw new IllegalStateException("Failed to load one or both test images");
+                }
+
+                // Convert dp to pixels
+                DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+                int targetWidthPx = 180;
+                int targetHeightPx = 150;
+
+                // Nén ảnh
+                Bitmap compressedLeft = Bitmap.createScaledBitmap(left, targetWidthPx, targetHeightPx, true);
+                Log.d("DEBUG_FAKE", "compressedLeft:" + compressedLeft);
+                Bitmap compressedRight = Bitmap.createScaledBitmap(right, targetWidthPx, targetHeightPx, true);
+                Log.d("DEBUG_FAKE", "compressedRight:" + compressedRight);
+
+                // Giải phóng Bitmap gốc để tránh rò rỉ bộ nhớ
+                left.recycle();
+                right.recycle();
+
+                return new Pair<>(compressedLeft, compressedRight);
+            } catch (Exception e) {
+                // Xử lý lỗi rõ ràng
+                throw new RuntimeException("Error processing test images: " + e.getMessage(), e);
+            }
+        }
+        else {
+            ImageData leftImage = new ImageData();
+            ImageData rightImage = new ImageData();
+            ImageData unknownImage = new ImageData();
+
+            byte[] bmpLeft = null;
+            byte[] bmpRight = null;
+
+            CaptureActivity.getResultImages(leftImage, rightImage, unknownImage);
+
+            if (leftImage.getData() != null) {
+                bmpLeft = Utilities.convertRawImageToBitmap(leftImage.getData(), leftImage.getWidth(), leftImage.getHeight());
+            }
+
+            if (rightImage.getData() != null) {
+                bmpRight = Utilities.convertRawImageToBitmap(rightImage.getData(), rightImage.getWidth(), rightImage.getHeight());
+            }
+
+            Bitmap leftBm = null;
+            Bitmap rightBm = null;
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
+            if (bmpLeft != null) {
+                leftBm = BitmapFactory.decodeByteArray(bmpLeft, 0, bmpLeft.length, options);
+            }
+
+            if (bmpRight != null) {
+                rightBm = BitmapFactory.decodeByteArray(bmpRight, 0, bmpRight.length, options);
+            }
+            return new Pair<>(leftBm, rightBm);
         }
     }
 

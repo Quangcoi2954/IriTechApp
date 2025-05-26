@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,17 +42,20 @@ public class BestImageDialog extends Dialog {
 
     public void setBestImages(Bitmap left, Bitmap right, Bitmap unknown) {
         if (left != null) {
+            Log.d("BestImageDialog", "Left: " + left);
             mLeftBestImage.setImageBitmap(left);
         } else {
             mLeftBestImage.setVisibility(View.GONE);
         }
         if (right != null) {
+            Log.d("BestImageDialog", "Right: " + right);
             mRightBestImage.setImageBitmap(right);
         } else {
             mRightBestImage.setVisibility(View.GONE);
         }
 
         if (unknown != null) {
+            Log.d("BestImageDialog", "Unknown: " + unknown);
             mUnknownBestImage.setImageBitmap(unknown);
         } else {
             mUnknownBestImage.setVisibility(View.GONE);
