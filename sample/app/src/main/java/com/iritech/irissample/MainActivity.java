@@ -38,6 +38,7 @@ import com.iritech.android.widget.alertdialog.SettingDialog;
 import com.iritech.android.widget.alertdialog.RegisterLicenseDialog;
 import com.iritech.iris.CaptureActivity;
 import com.iritech.iris.Constants;
+import com.iritech.iris.IriController;
 import com.iritech.iris.LicenseInfo;
 import com.iritech.iris.Utilities;
 import com.iritech.mqel704.GemResult;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper dbHelper = new DatabaseHelper(this);
 
-    private boolean isTestMode = true;
+    private boolean isTestMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -328,15 +329,17 @@ public class MainActivity extends AppCompatActivity {
             else {
                 Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
                 leftRenderBm = pair.first;
-                Log.d("DEBUG_FAKE_ENROLL", "leftRenderBm: " + leftRenderBm);
+                Log.d("DEBUG_ENROLL", "leftRenderBm: " + leftRenderBm);
                 rightRenderBm = pair.second;
-                Log.d("DEBUG_FAKE_ENROLL", "rightRenderBm: " + rightRenderBm);
+                Log.d("DEBUG_ENROLL", "rightRenderBm: " + rightRenderBm);
 
-                Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
-                intent.putExtra("userId", mUserId);
-                intent.putExtra("leftRenderBm", leftRenderBm);
-                intent.putExtra("rightRenderBm", rightRenderBm);
-                startActivity(intent);
+                if(leftRenderBm != null && rightRenderBm != null) {
+                    Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
+                    intent.putExtra("userId", mUserId);
+                    intent.putExtra("leftRenderBm", leftRenderBm);
+                    intent.putExtra("rightRenderBm", rightRenderBm);
+                    startActivity(intent);
+                }
             }
         }
         else {
@@ -350,17 +353,17 @@ public class MainActivity extends AppCompatActivity {
 
                 //TEST
 
-                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
-                leftRenderBm = pair.first;
-                Log.d("DEBUG_FAKE_VERIFY", "leftRenderBm: " + leftRenderBm);
-                rightRenderBm = pair.second;
-                Log.d("DEBUG_FAKE_VERIFY", "rightRenderBm: " + rightRenderBm);
-
-                Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
-                intent.putExtra("userId", mUserId);
-                intent.putExtra("leftRenderBm", leftRenderBm);
-                intent.putExtra("rightRenderBm", rightRenderBm);
-                startActivity(intent);
+//                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+//                leftRenderBm = pair.first;
+//                Log.d("DEBUG_FAKE_VERIFY", "leftRenderBm: " + leftRenderBm);
+//                rightRenderBm = pair.second;
+//                Log.d("DEBUG_FAKE_VERIFY", "rightRenderBm: " + rightRenderBm);
+//
+//                Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
+//                intent.putExtra("userId", mUserId);
+//                intent.putExtra("leftRenderBm", leftRenderBm);
+//                intent.putExtra("rightRenderBm", rightRenderBm);
+//                startActivity(intent);
 
                 if (resultCode == 0) {
                     boolean matchingResult = data.getBooleanExtra(Constants.EXTRA_MATCHING_RESULT, false);
@@ -369,17 +372,17 @@ public class MainActivity extends AppCompatActivity {
 
                         //THUC TE
 
-//                        Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
-//                        leftRenderBm = pair.first;
-//                        Log.d("DEBUG_FAKE_VERIFY", "leftRenderBm: " + leftRenderBm);
-//                        rightRenderBm = pair.second;
-//                        Log.d("DEBUG_FAKE_VERIFY", "rightRenderBm: " + rightRenderBm);
-//
-//                        Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
-//                        intent.putExtra("userId", mUserId);
-//                        intent.putExtra("leftRenderBm", leftRenderBm);
-//                        intent.putExtra("rightRenderBm", rightRenderBm);
-//                        startActivity(intent);
+                        Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                        leftRenderBm = pair.first;
+                        Log.d("DEBUG_VERIFY", "leftRenderBm: " + leftRenderBm);
+                        rightRenderBm = pair.second;
+                        Log.d("DEBUG_VERIFY", "rightRenderBm: " + rightRenderBm);
+
+                        Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
+                        intent.putExtra("userId", mUserId);
+                        intent.putExtra("leftRenderBm", leftRenderBm);
+                        intent.putExtra("rightRenderBm", rightRenderBm);
+                        startActivity(intent);
 
                     } else {
                         msg = "Verify failed! Not matched";
@@ -389,16 +392,16 @@ public class MainActivity extends AppCompatActivity {
             else if (requestCode == REQUEST_CODE_IDENTIFY) {
 
                 //TEST
-                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
-                leftRenderBm = pair.first;
-                rightRenderBm = pair.second;
-                Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
-                intent.putExtra("userId", String.valueOf(1));
-                intent.putExtra("leftRenderBm", leftRenderBm);
-                Log.d("DEBUG_FAKE_IDENTIFY", "leftRenderBm: " + leftRenderBm);
-                intent.putExtra("rightRenderBm", rightRenderBm);
-                Log.d("DEBUG_FAKE_IDENTIFY", "rightRenderBm: " + rightRenderBm);
-                startActivity(intent);
+//                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+//                leftRenderBm = pair.first;
+//                rightRenderBm = pair.second;
+//                Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
+//                intent.putExtra("userId", String.valueOf(2));
+//                intent.putExtra("leftRenderBm", leftRenderBm);
+//                Log.d("DEBUG_FAKE_IDENTIFY", "leftRenderBm: " + leftRenderBm);
+//                intent.putExtra("rightRenderBm", rightRenderBm);
+//                Log.d("DEBUG_FAKE_IDENTIFY", "rightRenderBm: " + rightRenderBm);
+//                startActivity(intent);
 
                 if (resultCode == 0)
                 {
@@ -407,29 +410,26 @@ public class MainActivity extends AppCompatActivity {
 
                     msg = "Matched with " + resultCount + " user(s): " + resultItems;
 
-                    int idValue = 0;
+                    String id = "";
 
                     if (resultItems != null && !resultItems.isEmpty()) {
                         String[] parts = resultItems.split(",");
                         String idPart = parts[0]; // "ID: 123"
-                        String id = idPart.replace("ID:", "").trim(); // "123"
+                        id = idPart.replace("ID:", "").trim(); // "123"
 
                         Log.d("MainActivity", "ID: " + id);
-
-                        idValue = Integer.parseInt(id);
                     }
 
-//                    Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
-//                    leftRenderBm = pair.first;
-//                    rightRenderBm = pair.second;
-//                    Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
-//                    intent.putExtra("userId", String.valueOf(1));
-//                    intent.putExtra("leftRenderBm", leftRenderBm);
-//                    Log.d("DEBUG_FAKE_IDENTIFY", "leftRenderBm: " + leftRenderBm);
-//                    intent.putExtra("rightRenderBm", rightRenderBm);
-//                    Log.d("DEBUG_FAKE_IDENTIFY", "rightRenderBm: " + rightRenderBm);
-//                    startActivity(intent);
-                    
+                    Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                    leftRenderBm = pair.first;
+                    rightRenderBm = pair.second;
+                    Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
+                    intent.putExtra("userId", id);
+                    intent.putExtra("leftRenderBm", leftRenderBm);
+                    Log.d("DEBUG_IDENTIFY", "leftRenderBm: " + leftRenderBm);
+                    intent.putExtra("rightRenderBm", rightRenderBm);
+                    Log.d("DEBUG_IDENTIFY", "rightRenderBm: " + rightRenderBm);
+                    startActivity(intent);
                 }
             }
             else {
@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
             byte[] bmpLeft = null;
             byte[] bmpRight = null;
 
-            CaptureActivity.getResultImages(leftImage, rightImage, unknownImage);
+            IriController.getInstance().getResultImages(leftImage, rightImage, unknownImage);
 
             if (leftImage.getData() != null) {
                 bmpLeft = Utilities.convertRawImageToBitmap(leftImage.getData(), leftImage.getWidth(), leftImage.getHeight());
@@ -523,7 +523,26 @@ public class MainActivity extends AppCompatActivity {
             if (bmpRight != null) {
                 rightBm = BitmapFactory.decodeByteArray(bmpRight, 0, bmpRight.length, options);
             }
-            return new Pair<>(leftBm, rightBm);
+
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+            int targetWidthPx = 180;
+            int targetHeightPx = 150;
+
+            Bitmap compressedLeft = null;
+            Bitmap compressedRight = null;
+
+            // Nén ảnh
+            if(leftBm != null && rightBm != null) {
+                compressedLeft = Bitmap.createScaledBitmap(leftBm, targetWidthPx, targetHeightPx, true);
+                Log.d("DEBUG_FAKE", "compressedLeft:" + compressedLeft);
+                compressedRight = Bitmap.createScaledBitmap(rightBm, targetWidthPx, targetHeightPx, true);
+                Log.d("DEBUG_FAKE", "compressedRight:" + compressedRight);
+
+                leftBm.recycle();
+                rightBm.recycle();
+            }
+
+            return new Pair<>(compressedLeft, compressedRight);
         }
     }
 
