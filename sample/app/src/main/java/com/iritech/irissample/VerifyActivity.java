@@ -1,5 +1,6 @@
 package com.iritech.irissample;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,6 +19,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.iritech.iris.LanguageHelper;
+
 public class VerifyActivity extends AppCompatActivity {
     private TextView emailText;
     private TextView phoneText;
@@ -25,6 +28,16 @@ public class VerifyActivity extends AppCompatActivity {
     private TextView idText;
 
     private ImageView imageAvatar;
+
+    private String language;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Context context = LanguageHelper.onAttach(newBase);
+        super.attachBaseContext(context);
+        language = LanguageHelper.getLanguage(context);
+        Log.d("LanguageDebug", "EnrollActivity attachBaseContext - Language applied: " + LanguageHelper.getLanguage(context));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +103,14 @@ public class VerifyActivity extends AppCompatActivity {
             String email = cursor.getString(1);
             String phone = cursor.getString(2);
 
-            nameText.setText("Name: " + name);
-            idText.setText("User ID: " + userId);
+            if(language.equals("vi")) {
+                nameText.setText("Tên: " + name);
+                idText.setText("ID người dùng: " + userId);
+            }
+            else {
+                nameText.setText("Name: " + name);
+                idText.setText("User ID: " + userId);
+            }
             phoneText.setText(phone);
             emailText.setText(email);
         }

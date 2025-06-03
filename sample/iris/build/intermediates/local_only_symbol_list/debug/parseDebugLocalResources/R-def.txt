@@ -69,9 +69,11 @@ id bt_ok
 id bt_setting_cancel
 id bt_setting_save
 id btnStop
+id btn_en_language
 id btn_new_activity
 id btn_start
 id btn_stop
+id btn_vn_language
 id camerasurfaceview_id
 id capture_layout_id
 id captureview_layout

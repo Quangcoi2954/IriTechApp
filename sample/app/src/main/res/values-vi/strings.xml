@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_btnEnroll">Đăng ký</string>
+    <string name="main_hint">Nhập user ID của bạn</string>
+    <string name="main_btnVerify">Xác nhận</string>
+    <string name="main_btnUnenroll">Hủy đăng ký</string>
+    <string name="main_btnIdentify">Xác minh</string>
+    <string name="main_btnCapture">Chụp ảnh</string>
+    <string name="enroll_choosePicture">Chọn ảnh của bạn</string>
+    <string name="enroll_nameInputHeader">Tên</string>
+    <string name="enroll_nameHint">Nhập tên của bạn</string>
+    <string name="enroll_phoneInputHeader">Số điện thoại</string>
+    <string name="enroll_phoneHint">Nhập số điện thoại của bạn</string>
+    <string name="enroll_emailInputHeader">Email</string>
+    <string name="enroll_emailHint">Nhập email của bạn</string>
+    <string name="enroll_btnSave">Lưu</string>
+    <string name="enroll_btnCancle">Hủy</string>
+    <string name="dialogOptions_btnFromDevice">Thư vện ảnh</string>
+    <string name="dialogOptions_btnTakeAPicture">Chụp một tấm !</string>
+    <string name="dialogOptions_header">Bạn muốn lấy ảnh từ đâu ?</string>
+    <string name="verify_header">THÔNG TIN CỦA BẠN</string>
+    <string name="verify_phoneHeader">Số điện thoại</string>
+    <string name="verify_btnEdit">Chỉnh sửa</string>
+</resources>

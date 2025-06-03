@@ -23,7 +23,8 @@
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="16sp"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="16dp"
+            android:text="@string/dialogOptions_header"/>
 
         <Button
             android:id="@+id/btn_from_device"
@@ -32,7 +33,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/border"
             android:backgroundTint="#cb6ce6"
-            android:text="From Device"
+            android:text="@string/dialogOptions_btnFromDevice"
             android:textColor="@color/textColor"/>
 
         <Button
@@ -42,7 +43,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/border"
             android:backgroundTint="#ff66c4"
-            android:text="Take a picture"
+            android:text="@string/dialogOptions_btnTakeAPicture"
             android:textColor="@color/textColor"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

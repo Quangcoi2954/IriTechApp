@@ -35,6 +35,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide; // Thêm import cho Glide
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.iritech.iris.LanguageHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,6 +55,16 @@ public class EnrollActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private String userId;
     DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+    private String language;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Context context = LanguageHelper.onAttach(newBase);
+        super.attachBaseContext(context);
+        language = LanguageHelper.getLanguage(context);
+        Log.d("LanguageDebug", "EnrollActivity attachBaseContext - Language applied: " + LanguageHelper.getLanguage(context));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +146,12 @@ public class EnrollActivity extends AppCompatActivity {
                 String email = editUserEmail.getText().toString().trim();
 
                 if(name.isEmpty() || phone.isEmpty() || email.isEmpty() || bitmap == null) {
-                    showWarningDialog("Please enter the full information before saving!");
+                    if(language.equals("vi")) {
+                        showWarningDialog("Vui lòng nhập đầy đủ thông tin trước khi lưu!");
+                    }
+                    else {
+                        showWarningDialog("Please enter the full information before saving!");
+                    }
                 } else {
                     //getApplicationContext().deleteDatabase("UserData.db");
                     if(dbHelper.isUserIdExists(userId)) {
@@ -144,7 +160,12 @@ public class EnrollActivity extends AppCompatActivity {
 
                     byte[] avatar = imageToByteArray(bitmap);
                     dbHelper.insertUser(userId, name, email, phone, avatar);
-                    showSuccessDialog("Save successfully!");
+                    if(language.equals("vi")) {
+                        showSuccessDialog("Lưu thành công!");
+                    }
+                    else {
+                        showSuccessDialog("Save successfully!");
+                    }
                 }
             }
         });
@@ -162,7 +183,7 @@ public class EnrollActivity extends AppCompatActivity {
         btnChooseOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showOptionsDialog("Choose your options");
+                showOptionsDialog();
             }
         });
     }
@@ -197,7 +218,12 @@ public class EnrollActivity extends AppCompatActivity {
             if(!dbHelper.isUserIdExists(userId))
             {
                 if(isDupliactePhone) {
-                    editUserPhone.setError("Phone number already exists");
+                    if(language.equals("vi")) {
+                        editUserPhone.setError("Số điện thoại đã tồn tại");
+                    }
+                    else {
+                        editUserPhone.setError("Phone number already exists");
+                    }
                     btnSave.setEnabled(isDupliactePhone);
                     btnSave.setAlpha(0.5f);
                 }
@@ -206,7 +232,12 @@ public class EnrollActivity extends AppCompatActivity {
             {
                 if(!currentPhone.equals(originalPhone)) {
                     if (isDupliactePhone) {
-                        editUserPhone.setError("Phone number already exists");
+                        if(language.equals("vi")) {
+                            editUserPhone.setError("Số điện thoại đã tồn tại");
+                        }
+                        else {
+                            editUserPhone.setError("Phone number already exists");
+                        }
                         btnSave.setEnabled(isDupliactePhone);
                         btnSave.setAlpha(0.5f);
                     }
@@ -217,11 +248,21 @@ public class EnrollActivity extends AppCompatActivity {
         {
             if(!dbHelper.isUserIdExists(userId)) {
                 if (!isInvalidEmail) {
-                    editUserEmail.setError("Invalid email format");
+                    if(language.equals("vi")) {
+                        editUserEmail.setError("e-mail không hợp lệ");
+                    }
+                    else {
+                        editUserEmail.setError("Invalid email format");
+                    }
                     btnSave.setEnabled(isInvalidEmail);
                     btnSave.setAlpha(0.5f);
                 } else if (isDupliacteEmail) {
-                    editUserEmail.setError("Email already exists");
+                    if(language.equals("vi")) {
+                        editUserEmail.setError("Email đã tồn tại");
+                    }
+                    else {
+                        editUserEmail.setError("Email already exists");
+                    }
                     btnSave.setEnabled(isDupliacteEmail);
                     btnSave.setAlpha(0.5f);
                 }
@@ -230,11 +271,21 @@ public class EnrollActivity extends AppCompatActivity {
             {
                 if(!currentEmail.equals(originalEmail)) {
                     if (!isInvalidEmail) {
-                        editUserEmail.setError("Invalid email format");
+                        if(language.equals("vi")) {
+                            editUserEmail.setError("e-mail không hợp lệ");
+                        }
+                        else {
+                            editUserEmail.setError("Invalid email format");
+                        }
                         btnSave.setEnabled(isInvalidEmail);
                         btnSave.setAlpha(0.5f);
                     } else if (isDupliacteEmail) {
-                        editUserEmail.setError("Email already exists");
+                        if(language.equals("vi")) {
+                            editUserEmail.setError("Email đã tồn tại");
+                        }
+                        else {
+                            editUserEmail.setError("Email already exists");
+                        }
                         btnSave.setEnabled(isDupliacteEmail);
                         btnSave.setAlpha(0.5f);
                     }
@@ -304,15 +355,12 @@ public class EnrollActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void showOptionsDialog(String message) {
+    private void showOptionsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_options, null);
         builder.setView(dialogView);
 
         AlertDialog dialog = builder.create();
-
-        TextView txtMessage = dialogView.findViewById(R.id.txtMessage);
-        txtMessage.setText(message);
 
         Button btnFromDevice = dialogView.findViewById(R.id.btn_from_device);
         Button btnTakeAPicture = dialogView.findViewById(R.id.btn_take_a_picture);
@@ -387,7 +435,12 @@ public class EnrollActivity extends AppCompatActivity {
                             });
                 } else {
                     Log.e("EnrollActivity", "Selected image URI is null");
-                    Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
+                    if(language.equals("vi")) {
+                        Toast.makeText(this, "Không có ảnh được chọn", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
+                    }
                 }
             } else if (requestCode == REQUEST_CODE_CAMERA) {
                 if (imageUri != null) {
@@ -413,12 +466,21 @@ public class EnrollActivity extends AppCompatActivity {
                                 @Override
                                 public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     Log.e("EnrollActivity", "Failed to load image from camera");
-                                    Toast.makeText(EnrollActivity.this, "Failed to load camera image", Toast.LENGTH_SHORT).show();
+                                    if(language.equals("vi")) {
+                                        Toast.makeText(EnrollActivity.this, "Không thể tải ảnh từ camera", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(EnrollActivity.this, "Failed to load camera image", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
                 } else {
                     Log.e("EnrollActivity", "Camera image URI is null");
-                    Toast.makeText(this, "No camera image captured", Toast.LENGTH_SHORT).show();
+                    if (language.equals("vi")) {
+                        Toast.makeText(this, "Không có ảnh được chụp", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "No camera image captured", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }

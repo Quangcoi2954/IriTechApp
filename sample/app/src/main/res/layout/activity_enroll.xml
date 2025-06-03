@@ -39,7 +39,7 @@
         android:textColor="@color/textColor"
         android:background="@drawable/border"
         android:backgroundTint="#5e17eb"
-        android:text="Choose your picture"
+        android:text="@string/enroll_choosePicture"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avartaImage"/>
@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/enroll_nameInputHeader"
             android:textColor="#000000" />
 
         <EditText
@@ -91,7 +91,7 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:background="@drawable/border"
-            android:hint="Enter your name"
+            android:hint="@string/enroll_nameHint"
             android:inputType="text"
             android:padding="8dp" />
     </LinearLayout>
@@ -108,7 +108,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone"
+            android:text="@string/enroll_phoneInputHeader"
             android:textColor="#000000"/>
         <EditText
             android:id="@+id/edit_phone"
@@ -117,7 +117,7 @@
             android:padding="8dp"
             android:background="@drawable/border"
             android:inputType="phone"
-            android:hint="Enter your phone"/>
+            android:hint="@string/enroll_phoneHint"/>
     </LinearLayout>
 
     <LinearLayout
@@ -132,7 +132,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="@string/enroll_emailInputHeader"
             android:textColor="#000000"/>
         <EditText
             android:id="@+id/edit_email"
@@ -141,7 +141,7 @@
             android:padding="8dp"
             android:background="@drawable/border"
             android:inputType="textEmailAddress"
-            android:hint="Enter your email"/>
+            android:hint="@string/enroll_emailHint"/>
     </LinearLayout>
 
     <Button
@@ -152,7 +152,7 @@
         android:textColor="@color/textColor"
         android:background="@drawable/border"
         android:backgroundTint="#5e17eb"
-        android:text="SAVE"
+        android:text="@string/enroll_btnSave"
         android:enabled="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -166,7 +166,7 @@
         android:textColor="@color/textColor"
         android:background="@drawable/border"
         android:backgroundTint="#8c52ff"
-        android:text="CANCEL"
+        android:text="@string/enroll_btnCancle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_save"/>

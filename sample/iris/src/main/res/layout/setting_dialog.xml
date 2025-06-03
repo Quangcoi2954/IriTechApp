@@ -9,28 +9,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="17sp"
-            android:textColor="#575757"
             android:singleLine="true"
-            android:text="Application Settings" />
+            android:text="Application Settings"
+            android:textColor="#575757"
+            android:textSize="17sp" />
 
         <ScrollView
+            android:id="@+id/scrollview"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
-            android:orientation="vertical"
-            android:id="@+id/scrollview">
+            android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/scrollviewlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/scrollviewlayout">
+                android:orientation="vertical">
                 <!--Camera preview scale-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -72,11 +74,11 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,19 +100,19 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="License information:"
                         android:textColor="#797979"
                         android:textSize="14sp"
-                        android:text="License information:"/>
+                        app:layout_constraintLeft_toLeftOf="parent" />
 
                     <!--CustomerID info-->
                     <LinearLayout
@@ -118,19 +120,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:text="Customer ID:"
                             android:textColor="#797979"
                             android:textSize="14sp"
-                            android:text="Customer ID:"/>
+                            app:layout_constraintLeft_toLeftOf="parent" />
 
                         <EditText
                             android:id="@+id/edit_setting_customer_id"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!--LicenseID info-->
@@ -139,19 +142,67 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="45dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:text="License ID:"
                             android:textColor="#797979"
                             android:textSize="14sp"
-                            android:text="License ID:"/>
+                            app:layout_constraintLeft_toLeftOf="parent" />
 
                         <EditText
                             android:id="@+id/edit_setting_license_id"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Languages: "
+                        android:textColor="#797979"
+                        android:textSize="14sp"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <Button
+                            android:id="@+id/btn_en_language"
+                            android:layout_width="120dp"
+                            android:layout_height="50dp"
+                            android:text="English"
+                            android:textColor="#ffffff"
+                            android:backgroundTint="#0866ff"/>
+
+                        <Button
+                            android:id="@+id/btn_vn_language"
+                            android:layout_width="120dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="10dp"
+                            android:text="Vietnamese"
+                            android:textColor="#ffffff"
+                            android:backgroundTint="#ff0033"/>
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -162,16 +213,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:orientation="horizontal">
+            app:layout_constraintTop_toTopOf="parent">
+
             <Button
                 android:id="@+id/bt_setting_save"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Save"
-                />
+                android:textColor="#ffffff"
+                android:backgroundTint="#00d26a"/>
 
             <Button
                 android:id="@+id/bt_setting_cancel"
@@ -179,7 +232,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Cancel"
-                />
+                android:textColor="#ffffff"
+                android:backgroundTint="#dc362e"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

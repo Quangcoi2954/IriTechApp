@@ -1,5 +1,8 @@
 package com.iritech.android.widget.alertdialog;
 
+import static android.app.PendingIntent.getActivity;
+
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -9,11 +12,13 @@ import android.os.Bundle;
 
 import android.content.Intent;
 
+import com.iritech.iris.LanguageHelper;
 import com.iritech.iris.LicenseInfo;
 import com.iritech.iris.Settings;
 import com.iritech.iris.R;
 import com.iritech.android.TextValidator;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -25,6 +30,8 @@ import androidx.annotation.NonNull;
 import android.content.pm.PackageManager;
 import android.content.DialogInterface;
 
+import java.text.MessageFormat;
+
 public class SettingDialog extends Dialog {
     private boolean mNeedRestart;
     private EditText mCameraPreviewScale;
@@ -33,8 +40,14 @@ public class SettingDialog extends Dialog {
     private EditText mCustomerID;
     private EditText mLicenseID;
 
+    private Activity mHostingActivity;
+
     public SettingDialog(@NonNull Context context) {
         super(context);
+
+        if (context instanceof Activity) {
+            this.mHostingActivity = (Activity) context;
+        }
     }
 
     @Override
@@ -113,6 +126,46 @@ public class SettingDialog extends Dialog {
             mCustomerID.setText(Settings.getCustomerID(getContext()));
             mLicenseID.setText(Settings.getLicenseID(getContext()));
         }
+
+        Button btnEn = findViewById(R.id.btn_en_language);
+        Button btnVn = findViewById(R.id.btn_vn_language);
+
+        // Log ngôn ngữ hiện tại khi dialog được tạo (để biết trạng thái ban đầu)
+        if (getContext() != null) {
+            Log.d("LanguageDebug", "SettingDialog onCreate - Initial language: " + LanguageHelper.getLanguage(getContext()));
+        }
+
+        if (btnEn != null) {
+            btnEn.setOnClickListener(v -> {
+                if (getContext() != null) {
+                    LanguageHelper.setLocale(getContext(), "en");
+                    Log.d("LanguageDebug", "SettingDialog - Language set to 'en'. Current from helper: " + LanguageHelper.getLanguage(getContext()));
+                    if (mHostingActivity != null) {
+                        mHostingActivity.recreate();
+                    } else {
+                        Toast.makeText(getContext(), "Language changed. Please restart the app manually if UI does not update.", Toast.LENGTH_LONG).show();
+                        //dismiss();
+                        // notifyAndRestartApplication();
+                    }
+                }
+            });
+        }
+
+        if (btnVn != null) {
+            btnVn.setOnClickListener(v -> {
+                if (getContext() != null) {
+                    LanguageHelper.setLocale(getContext(), "vi");
+                    Log.d("LanguageDebug", "SettingDialog - Language set to 'en'. Current from helper: " + LanguageHelper.getLanguage(getContext()));
+                    if (mHostingActivity != null) {
+                        mHostingActivity.recreate();
+                    } else {
+                        Toast.makeText(getContext(), "Language changed. Please restart the app manually if UI does not update.", Toast.LENGTH_LONG).show();
+                        //dismiss();
+                        // notifyAndRestartApplication();
+                    }
+                }
+            });
+        }
     }
 
     private void notifyAndRestartApplication(){
@@ -142,7 +195,7 @@ public class SettingDialog extends Dialog {
                         mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         // create a pending intent so the application is restarted after System.exit(0) was called.
                         // use an AlarmManager to call this intent in 100ms
-                        PendingIntent mPendingIntent = PendingIntent.getActivity(c, 0, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                        PendingIntent mPendingIntent = getActivity(c, 0, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
 
                         AlarmManager mgr = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
                         mgr.set(AlarmManager.RTC, 0, mPendingIntent);

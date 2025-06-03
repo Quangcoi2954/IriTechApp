@@ -39,6 +39,7 @@ import com.iritech.android.widget.alertdialog.RegisterLicenseDialog;
 import com.iritech.iris.CaptureActivity;
 import com.iritech.iris.Constants;
 import com.iritech.iris.IriController;
+import com.iritech.iris.LanguageHelper;
 import com.iritech.iris.LicenseInfo;
 import com.iritech.iris.Utilities;
 import com.iritech.mqel704.GemResult;
@@ -56,8 +57,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -74,10 +80,19 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_READ_PHONE_STATE = 3;
     private static final int PERMISSIONS_ACCESS_NETWORK_STATE = 4;
 
-    String enrollImgPath = (Environment.getExternalStorageDirectory().toString() + File.separator
-            + "iritech" + File.separator + "enroll");
-    String verifyImgPath = (Environment.getExternalStorageDirectory().toString() + File.separator
-            + "iritech" + File.separator + "verify");
+//    String enrollImgPath = (Environment.getExternalStorageDirectory().toString() + File.separator
+//            + "iritech" + File.separator + "enroll");
+//    String verifyImgPath = (Environment.getExternalStorageDirectory().toString() + File.separator
+//            + "iritech" + File.separator + "verify");
+
+    String enrollImgPath = "/sdcard" + File.separator
+            + "iritech" + File.separator + "enroll";
+    String verifyImgPath = "/sdcard" + File.separator
+            + "iritech" + File.separator + "verify";
+
+    String identifyImgPath = "/sdcard" + File.separator
+            + "iritech" + File.separator + "identify";
+
     String mUserId;
     private int REQUEST_CODE_IDENTIFY = 1111;
     private int REQUEST_CODE_CAPTURE = 1112;
@@ -97,10 +112,27 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isTestMode = false;
 
+    private String language;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        // Gọi LanguageHelper.onAttach để áp dụng ngôn ngữ
+        // Giả sử bạn đã có MyAplication.java gọi onAttach,
+        // thì dòng này trong Activity vẫn hữu ích để đảm bảo Activity này cũng được cập nhật
+        // nếu nó được tạo lại một cách độc lập.
+        Context context = LanguageHelper.onAttach(newBase);
+        super.attachBaseContext(context);
+        language = LanguageHelper.getLanguage(context);
+        Log.d("LanguageDebug", "MainActivity attachBaseContext - Language applied: " + LanguageHelper.getLanguage(context));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("LanguageDebug", "MainActivity onCreate - Current language: " + LanguageHelper.getLanguage(this));
+
         editUserId = findViewById(R.id.edit_user_id);
 
         CaptureActivity.setUSBActivity(this);
@@ -237,7 +269,12 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle("Information!");
             dialog.show();
             dialog.setBestImages(null, null, null);
-            dialog.setMessage("  Please input User ID  ");
+            if(language.equals("vi")) {
+                dialog.setMessage("  Vui lòng nhập User ID  ");
+            }
+            else {
+                dialog.setMessage("  Please input User ID  ");
+            }
 
             return;
         }
@@ -245,7 +282,14 @@ public class MainActivity extends AppCompatActivity {
         if((actionType.equals(Constants.ACTION_ENROLL))) {
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             if (dbHelper.isUserIdExists(mUserId)) {
-                showWarningDialog("User ID already exists!");
+                if(language.equals("vi"))
+                {
+                    showWarningDialog("User ID đã tồn tại!");
+
+                }
+                else {
+                    showWarningDialog("User ID already exists!");
+                }
                 return;
             }
         }
@@ -253,7 +297,12 @@ public class MainActivity extends AppCompatActivity {
         if((actionType.equals(Constants.ACTION_VERIFY))) { // || (actionType.equals(Constants.ACTION_UNENROLL))) {
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             if (!dbHelper.isUserIdExists(mUserId)) {
-                showWarningDialog("User ID does not exist!");
+                if(language.equals("vi")) {
+                    showWarningDialog("User ID không tồn tại!");
+                }
+                else {
+                    showWarningDialog("User ID does not exist!");
+                }
                 return;
             }
         }
@@ -309,11 +358,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateImgPath() {
+        enrollImgPath += File.separator + mUserId;
+        verifyImgPath += File.separator + mUserId;
+        identifyImgPath += File.separator + mUserId;
+
+        File enrollDirFile = new File(enrollImgPath);
+        if (!enrollDirFile.exists()) {
+            boolean wasSuccessful = enrollDirFile.mkdirs();
+            if (wasSuccessful) {
+                Log.d("MyApp", "Directory created: " + enrollImgPath);
+            } else {
+                Log.e("MyApp", "Failed to create directory: " + enrollImgPath);
+            }
+        }
+
+        File verifyDirFile = new File(verifyImgPath);
+        if (!verifyDirFile.exists()) {
+            boolean wasSuccessful = verifyDirFile.mkdirs();
+            if (wasSuccessful) {
+                Log.d("MyApp", "Directory created: " + verifyImgPath);
+            } else {
+                Log.e("MyApp", "Failed to create directory: " + verifyImgPath);
+            }
+        }
+
+        File identifyDirFile = new File(identifyImgPath);
+        if (!identifyDirFile.exists()) {
+            boolean wasSuccessful = identifyDirFile.mkdirs();
+            if (wasSuccessful) {
+                Log.d("MyApp", "Directory created: " + identifyImgPath);
+            }
+            else {
+                Log.e("MyApp", "Failed to create directory: " + identifyImgPath);
+            }
+        }
+    }
+
     private void processResult(int requestCode, Intent data) {
 
         Bitmap leftRenderBm = null;
         Bitmap rightRenderBm = null;
-        Bitmap unknownRenderBm = null;
+
+        updateImgPath();
 
         if (requestCode == REQUEST_CODE_CAPTURE) {
             processCaptureResult(data, verifyImgPath, mUserId, "best");
@@ -321,19 +408,33 @@ public class MainActivity extends AppCompatActivity {
         else if (requestCode == REQUEST_CODE_ENROLL) {
             processCaptureResult(data, enrollImgPath, mUserId, "best");
 
+            //TEST
+
+//            Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
+//            intent.putExtra("userId", mUserId);
+//            intent.putExtra("leftRenderBm", leftRenderBm);
+//            intent.putExtra("rightRenderBm", rightRenderBm);
+//            startActivity(intent);
+
             boolean matchingResult = data.getBooleanExtra(Constants.EXTRA_MATCHING_RESULT, false);
             Log.d("DEBUG_ENROLL", "matchingResult: " + matchingResult);
             if (matchingResult) {
-                showWarningDialog("Enroll Duplicate!");
+                if(language.equals("vi")) {
+                    showWarningDialog("Đăng ký bị trùng lặp!");
+                }
+                else {
+                    showWarningDialog("Enroll Duplicate!");
+                }
             }
             else {
-                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                Pair<Bitmap, Bitmap> pair = processCaptureRender(this, enrollImgPath, "best");
                 leftRenderBm = pair.first;
                 Log.d("DEBUG_ENROLL", "leftRenderBm: " + leftRenderBm);
                 rightRenderBm = pair.second;
                 Log.d("DEBUG_ENROLL", "rightRenderBm: " + rightRenderBm);
 
                 if(leftRenderBm != null && rightRenderBm != null) {
+                    //THUC TE
                     Intent intent = new Intent(MainActivity.this, EnrollActivity.class);
                     intent.putExtra("userId", mUserId);
                     intent.putExtra("leftRenderBm", leftRenderBm);
@@ -353,11 +454,11 @@ public class MainActivity extends AppCompatActivity {
 
                 //TEST
 
-//                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+//                Pair<Bitmap, Bitmap> pair = processCaptureRender(this, verifyImgPath, "best");
 //                leftRenderBm = pair.first;
-//                Log.d("DEBUG_FAKE_VERIFY", "leftRenderBm: " + leftRenderBm);
+//                Log.d("DEBUG_VERIFY", "leftRenderBm: " + leftRenderBm);
 //                rightRenderBm = pair.second;
-//                Log.d("DEBUG_FAKE_VERIFY", "rightRenderBm: " + rightRenderBm);
+//                Log.d("DEBUG_VERIFY", "rightRenderBm: " + rightRenderBm);
 //
 //                Intent intent = new Intent(MainActivity.this, VerifyActivity.class);
 //                intent.putExtra("userId", mUserId);
@@ -366,13 +467,20 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
 
                 if (resultCode == 0) {
+                    processCaptureResult(data, verifyImgPath, mUserId, "best");
+
                     boolean matchingResult = data.getBooleanExtra(Constants.EXTRA_MATCHING_RESULT, false);
                     if (matchingResult) {
-                        msg = "Verify Successfully";
+                        if(language.equals("vi")) {
+                            msg = "Xác nhận thành công !";
+                        }
+                        else {
+                            msg = "Verify Successfully !";
+                        }
 
                         //THUC TE
 
-                        Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                        Pair<Bitmap, Bitmap> pair = processCaptureRender(this, verifyImgPath, "best");
                         leftRenderBm = pair.first;
                         Log.d("DEBUG_VERIFY", "leftRenderBm: " + leftRenderBm);
                         rightRenderBm = pair.second;
@@ -385,30 +493,42 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     } else {
-                        msg = "Verify failed! Not matched";
+                        if(language.equals("vi")) {
+                            msg = "Xác nhận thất bại! Không khớp";
+                        }
+                        else {
+                            msg = "Verify failed! Not matched";
+                        }
                     }
                 }
             }
             else if (requestCode == REQUEST_CODE_IDENTIFY) {
 
                 //TEST
-//                Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+//                Pair<Bitmap, Bitmap> pair = processCaptureRender(this, identifyImgPath, "best");
 //                leftRenderBm = pair.first;
 //                rightRenderBm = pair.second;
 //                Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
-//                intent.putExtra("userId", String.valueOf(2));
+//                intent.putExtra("userId", "2");
 //                intent.putExtra("leftRenderBm", leftRenderBm);
-//                Log.d("DEBUG_FAKE_IDENTIFY", "leftRenderBm: " + leftRenderBm);
+//                Log.d("DEBUG_IDENTIFY", "leftRenderBm: " + leftRenderBm);
 //                intent.putExtra("rightRenderBm", rightRenderBm);
-//                Log.d("DEBUG_FAKE_IDENTIFY", "rightRenderBm: " + rightRenderBm);
+//                Log.d("DEBUG_IDENTIFY", "rightRenderBm: " + rightRenderBm);
 //                startActivity(intent);
 
                 if (resultCode == 0)
                 {
+                    processCaptureResult(data, identifyImgPath, mUserId, "best");
+
                     int resultCount = data.getIntExtra(Constants.EXTRA_MATCHING_COUNT, 0);
                     String resultItems = data.getStringExtra(Constants.EXTRA_MATCHING_ITEMS);
 
-                    msg = "Matched with " + resultCount + " user(s): " + resultItems;
+                    if(language.equals("vi")) {
+                        msg = "Đã tìm thấy " + resultCount + " người dùng: " + resultItems;
+                    }
+                    else {
+                        msg = "Matched with " + resultCount + " user(s): " + resultItems;
+                    }
 
                     String id = "";
 
@@ -420,7 +540,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("MainActivity", "ID: " + id);
                     }
 
-                    Pair<Bitmap, Bitmap> pair = processCaptureRender(this);
+                    //THUC TE
+
+                    Pair<Bitmap, Bitmap> pair = processCaptureRender(this, identifyImgPath, "best");
                     leftRenderBm = pair.first;
                     rightRenderBm = pair.second;
                     Intent intent = new Intent(MainActivity.this, IdentifyActivity.class);
@@ -435,11 +557,23 @@ public class MainActivity extends AppCompatActivity {
             else {
                 if(dbHelper.isUserIdExists(mUserId)) {
                     dbHelper.deleteUserById(Integer.parseInt(mUserId));
-                    Toast.makeText(getApplicationContext(), "UNENROLL successfully!", Toast.LENGTH_SHORT).show();
+                    if(language.equals("vi")) {
+                        msg = "UNENROLL thành công!";
+                    }
+                    else {
+                        msg = "UNENROLL successfully!";
+                    }
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dbHelper.deleteAllUsers();
-                    Toast.makeText(getApplicationContext(), "UNENROLL successfully!", Toast.LENGTH_SHORT).show();
+                    if(language.equals("vi")) {
+                        msg = "UNENROLL thành công!";
+                    }
+                    else {
+                        msg = "UNENROLL successfully!";
+                    }
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -451,7 +585,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Pair<Bitmap, Bitmap> processCaptureRender(Context context) {
+    public Pair<Bitmap, Bitmap> processCaptureRender(Context context, String userFolderPath, String filePurposeToSearch) {
         // Kiểm tra context và đầu vào
         if (context == null) {
             throw new IllegalArgumentException("Context cannot be null");
@@ -494,34 +628,43 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            ImageData leftImage = new ImageData();
-            ImageData rightImage = new ImageData();
-            ImageData unknownImage = new ImageData();
 
-            byte[] bmpLeft = null;
-            byte[] bmpRight = null;
+            List<File> leftBmpFiles = findBmpFiles(userFolderPath, filePurposeToSearch, "L");
+            Log.d("FileSearch", "Found " + leftBmpFiles.size() + " left BMP files.");
 
-            IriController.getInstance().getResultImages(leftImage, rightImage, unknownImage);
+            Bitmap latestLeftBitmap = null;
 
-            if (leftImage.getData() != null) {
-                bmpLeft = Utilities.convertRawImageToBitmap(leftImage.getData(), leftImage.getWidth(), leftImage.getHeight());
+            if (!leftBmpFiles.isEmpty()) {
+                // Sắp xếp theo ngày sửa đổi, tệp mới nhất ở đầu
+                Collections.sort(leftBmpFiles, new Comparator<File>() {
+                    @Override
+                    public int compare(File f1, File f2) {
+                        return Long.compare(f2.lastModified(), f1.lastModified());
+                    }
+                });
+
+                File latestLeftBmp = leftBmpFiles.get(0);
+                Log.d("FileSearch", "Latest left BMP: " + latestLeftBmp.getAbsolutePath());
+                latestLeftBitmap = loadBitmapFromFile(latestLeftBmp.getAbsolutePath());
             }
 
-            if (rightImage.getData() != null) {
-                bmpRight = Utilities.convertRawImageToBitmap(rightImage.getData(), rightImage.getWidth(), rightImage.getHeight());
-            }
+            List<File> rightBmpFiles = findBmpFiles(userFolderPath, filePurposeToSearch, "R");
+            Log.d("FileSearch", "Found " + rightBmpFiles.size() + " right BMP files.");
 
-            Bitmap leftBm = null;
-            Bitmap rightBm = null;
+            Bitmap latestRightBitmap = null;
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inMutable = true;
-            if (bmpLeft != null) {
-                leftBm = BitmapFactory.decodeByteArray(bmpLeft, 0, bmpLeft.length, options);
-            }
+            if (!rightBmpFiles.isEmpty()) {
+                // Sắp xếp theo ngày sửa đổi, tệp mới nhất ở đầu
+                Collections.sort(rightBmpFiles, new Comparator<File>() {
+                    @Override
+                    public int compare(File f1, File f2) {
+                        return Long.compare(f2.lastModified(), f1.lastModified());
+                    }
+                });
 
-            if (bmpRight != null) {
-                rightBm = BitmapFactory.decodeByteArray(bmpRight, 0, bmpRight.length, options);
+                File latestRightBmp = rightBmpFiles.get(0);
+                Log.d("FileSearch", "Latest right BMP: " + latestRightBmp.getAbsolutePath());
+                latestRightBitmap = loadBitmapFromFile(latestRightBmp.getAbsolutePath());
             }
 
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -532,18 +675,80 @@ public class MainActivity extends AppCompatActivity {
             Bitmap compressedRight = null;
 
             // Nén ảnh
-            if(leftBm != null && rightBm != null) {
-                compressedLeft = Bitmap.createScaledBitmap(leftBm, targetWidthPx, targetHeightPx, true);
-                Log.d("DEBUG_FAKE", "compressedLeft:" + compressedLeft);
-                compressedRight = Bitmap.createScaledBitmap(rightBm, targetWidthPx, targetHeightPx, true);
-                Log.d("DEBUG_FAKE", "compressedRight:" + compressedRight);
+            if (latestLeftBitmap != null) {
+                try {
+                    compressedLeft = Bitmap.createScaledBitmap(latestLeftBitmap, targetWidthPx, targetHeightPx, true);
+                    Log.d("RealMode", "Compressed Left: " + compressedLeft);
+                } finally {
+                    latestLeftBitmap.recycle();
+                }
+            }
 
-                leftBm.recycle();
-                rightBm.recycle();
+            if (latestRightBitmap != null) {
+                try {
+                    compressedRight = Bitmap.createScaledBitmap(latestRightBitmap, targetWidthPx, targetHeightPx, true);
+                    Log.d("RealMode", "Compressed Right: " + compressedRight);
+                } finally {
+                    latestRightBitmap.recycle();
+                }
             }
 
             return new Pair<>(compressedLeft, compressedRight);
         }
+    }
+
+    public Bitmap loadBitmapFromFile(String filePath) {
+        File imageFile = new File(filePath);
+        if (!imageFile.exists() || !imageFile.isFile()) {
+            Log.e("ImageLoader", "BMP File not found or is not a file: " + filePath);
+            return null;
+        }
+
+        try {
+            // Tùy chọn này hữu ích nếu bạn muốn kiểm soát cấu hình của Bitmap
+            // BitmapFactory.Options options = new BitmapFactory.Options();
+            // options.inPreferredConfig = Bitmap.Config.ARGB_8888; // Ví dụ
+            // return BitmapFactory.decodeFile(filePath, options);
+
+            return BitmapFactory.decodeFile(filePath);
+        } catch (OutOfMemoryError e) {
+            Log.e("ImageLoader", "OutOfMemoryError loading BMP: " + filePath, e);
+            // Cân nhắc giảm kích thước ảnh hoặc xử lý lỗi bộ nhớ
+            return null;
+        } catch (Exception e) {
+            Log.e("ImageLoader", "Error loading BMP: " + filePath, e);
+            return null;
+        }
+    }
+
+    private List<File> findBmpFiles(String directoryPath, final String filePurpose, final String sideIndicator) {
+        File directory = new File(directoryPath);
+        List<File> foundFiles = new ArrayList<>();
+
+        if (!directory.exists() || !directory.isDirectory()) {
+            Log.e("FileFinder", "Directory not found or is not a directory: " + directoryPath);
+            return foundFiles; // Trả về danh sách rỗng
+        }
+
+        // Tạo một bộ lọc tên tệp
+        FilenameFilter bmpFilter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                boolean matchesPurpose = name.contains(filePurpose);
+                boolean matchesSide = name.contains(filePurpose + sideIndicator);
+                boolean isBmp = name.toLowerCase().endsWith(".bmp");
+
+                return matchesPurpose && matchesSide && isBmp;
+            }
+        };
+
+        File[] files = directory.listFiles(bmpFilter);
+
+        if (files != null) {
+            Collections.addAll(foundFiles, files);
+        }
+
+        return foundFiles;
     }
 
     private void processCaptureResult(Intent data, String folderPath, String prefix, String filePurpose
@@ -559,7 +764,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == 0) {
             // Capture success
-            resultMsg = "Successfully! Captured data is saved at: \n" + folderPath;
+            if(language.equals("vi")) {
+                resultMsg = "Thành công! dữ liệu hình ảnh được lưu tại: \n" + folderPath;
+            }
+            else {
+                resultMsg = "Successfully! Captured data is saved at: \n" + folderPath;
+            }
             byte[] leftTemplateBuffer = data.getByteArrayExtra(Constants.EXTRA_LEFT_TEMPLATE);
             byte[] rightTemplateBuffer = data.getByteArrayExtra(Constants.EXTRA_RIGHT_TEMPLATE);
 

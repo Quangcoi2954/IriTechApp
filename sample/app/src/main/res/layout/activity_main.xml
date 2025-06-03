@@ -12,11 +12,13 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintTop_toTopOf="parent">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:layout_marginTop="30dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,7 +62,7 @@
             android:layout_height="50dp"
             android:padding="8dp"
             android:background="@drawable/border"
-            android:hint="Enter your user ID"/>
+            android:hint="@string/main_hint"/>
     </LinearLayout>
 
     <Button
@@ -71,7 +73,7 @@
         android:textColor="@color/textColor"
         android:background="@drawable/border"
         android:backgroundTint="#5e17eb"
-        android:text="Enroll"
+        android:text="@string/main_btnEnroll"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_id_container" />
@@ -84,7 +86,7 @@
         android:textColor="@color/textColor"
         android:backgroundTint="#8c52ff"
         android:background="@drawable/border"
-        android:text="VERIFY"
+        android:text="@string/main_btnVerify"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_enroll" />
@@ -97,7 +99,7 @@
         android:textColor="@color/textColor"
         android:backgroundTint="#cb6ce6"
         android:background="@drawable/border"
-        android:text="UNENROLL"
+        android:text="@string/main_btnUnenroll"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_verify" />
@@ -110,7 +112,7 @@
         android:textColor="@color/textColor"
         android:backgroundTint="#ff66c4"
         android:background="@drawable/border"
-        android:text="Identify"
+        android:text="@string/main_btnIdentify"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_unenroll" />
@@ -123,7 +125,7 @@
         android:textColor="@color/textColor"
         android:backgroundTint="#ff5757"
         android:background="@drawable/border"
-        android:text="Capture"
+        android:text="@string/main_btnCapture"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_identify" />

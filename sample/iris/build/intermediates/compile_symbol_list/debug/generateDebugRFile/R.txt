@@ -1145,9 +1145,11 @@ int id bt_ok 0x0
 int id bt_setting_cancel 0x0
 int id bt_setting_save 0x0
 int id btnStop 0x0
+int id btn_en_language 0x0
 int id btn_new_activity 0x0
 int id btn_start 0x0
 int id btn_stop 0x0
+int id btn_vn_language 0x0
 int id button 0x0
 int id buttonPanel 0x0
 int id button_0 0x0

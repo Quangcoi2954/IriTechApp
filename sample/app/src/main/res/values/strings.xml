@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">IrisSample IriAegis 26T
     </string>
+    <string name="main_btnEnroll">Enroll</string>
+    <string name="main_hint">Enter your user ID</string>
+    <string name="main_btnVerify">Verify</string>
+    <string name="main_btnUnenroll">Unenroll</string>
+    <string name="main_btnIdentify">Identify</string>
+    <string name="main_btnCapture">Capture</string>
+    <string name="enroll_choosePicture">Choose your picture</string>
+    <string name="enroll_nameInputHeader">Name</string>
+    <string name="enroll_nameHint">Enter your name</string>
+    <string name="enroll_phoneInputHeader">Phone</string>
+    <string name="enroll_phoneHint">Enter your phone</string>
+    <string name="enroll_emailInputHeader">Email</string>
+    <string name="enroll_emailHint">Enter your email</string>
+    <string name="enroll_btnSave">Save</string>
+    <string name="enroll_btnCancle">Cancle</string>
+    <string name="dialogOptions_btnFromDevice">From device</string>
+    <string name="dialogOptions_btnTakeAPicture">Take a picture</string>
+    <string name="dialogOptions_header">Choose your options</string>
+    <string name="verify_header">YOUR INFORMATION</string>
+    <string name="verify_phoneHeader">Phone</string>
+    <string name="verify_btnEdit">Edit</string>
 </resources>
