@@ -1517,6 +1517,7 @@ id transition_transform
 id tv_result_msg
 id tv_version
 id txtIndicator
+id txtLoadingMessage
 id txtMessage
 id unchecked
 id uniform
@@ -1631,6 +1632,7 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
+layout dialog_loading_spinner
 layout dialog_options
 layout dialog_successful
 layout dialog_warning
@@ -1739,6 +1741,7 @@ string common_signin_button_text_long
 string dialogOptions_btnFromDevice
 string dialogOptions_btnTakeAPicture
 string dialogOptions_header
+string dialog_loading
 string enroll_btnCancle
 string enroll_btnSave
 string enroll_choosePicture

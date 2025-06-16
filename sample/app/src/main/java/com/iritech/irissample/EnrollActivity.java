@@ -58,6 +58,8 @@ public class EnrollActivity extends AppCompatActivity {
 
     private String language;
 
+    LoadingDialogHelper loadingHelper;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         Context context = LanguageHelper.onAttach(newBase);
@@ -138,6 +140,8 @@ public class EnrollActivity extends AppCompatActivity {
             btnSave.setAlpha(0.5f);
         }
 
+        loadingHelper = new LoadingDialogHelper(this);
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +157,14 @@ public class EnrollActivity extends AppCompatActivity {
                         showWarningDialog("Please enter the full information before saving!");
                     }
                 } else {
+
+                    if(language.equals("vi")) {
+                        showSuccessDialogWithLoading("Đăng ký thành công!");
+                    }
+                    else {
+                        showSuccessDialogWithLoading("Registration successful!");
+                    }
+
                     //getApplicationContext().deleteDatabase("UserData.db");
                     if(dbHelper.isUserIdExists(userId)) {
                         dbHelper.deleteUserById(Integer.parseInt(userId));
@@ -160,12 +172,6 @@ public class EnrollActivity extends AppCompatActivity {
 
                     byte[] avatar = imageToByteArray(bitmap);
                     dbHelper.insertUser(userId, name, email, phone, avatar);
-                    if(language.equals("vi")) {
-                        showSuccessDialog("Lưu thành công!");
-                    }
-                    else {
-                        showSuccessDialog("Save successfully!");
-                    }
                 }
             }
         });
@@ -319,6 +325,23 @@ public class EnrollActivity extends AppCompatActivity {
         }
         cursor.close();
     }
+
+    private void showSuccessDialogWithLoading(String message) {
+        LoadingDialogHelper loadingHelper = new LoadingDialogHelper(this);
+        if(language.equals("vi")) {
+            loadingHelper.show("Đang xử lý...");
+        }
+        else {
+            loadingHelper.show("Processing...");
+        }
+
+        // Sau 2 giây thì ẩn loading và hiện dialog thành công
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            loadingHelper.dismiss();
+            showSuccessDialog(message);
+        }, 2000);
+    }
+
     private void showSuccessDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_successful, null);

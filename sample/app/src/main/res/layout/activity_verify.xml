@@ -94,12 +94,12 @@
         app:layout_constraintVertical_bias="0.011">
 
         <ImageView
-            android:id="@+id/user_left_iris"
+            android:id="@+id/user_right_iris"
             android:layout_width="180dp"
             android:layout_height="150dp" />
 
         <ImageView
-            android:id="@+id/user_right_iris"
+            android:id="@+id/user_left_iris"
             android:layout_width="180dp"
             android:layout_height="150dp" />
 

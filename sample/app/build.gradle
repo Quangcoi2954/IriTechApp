@@ -11,11 +11,14 @@ android {
     }
 
     compileSdkVersion 35
+    //compileSdkVersion 29
     buildToolsVersion "35.0.0"
     defaultConfig {
         applicationId "com.iritech.android.irissample"
         minSdkVersion 21
+        //minSdkVersion 19
         targetSdkVersion 35
+        //targetSdkVersion 29
         versionCode 2020126
         versionName "2.0.20126"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

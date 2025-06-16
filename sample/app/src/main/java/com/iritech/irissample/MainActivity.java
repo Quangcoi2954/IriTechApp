@@ -80,18 +80,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_READ_PHONE_STATE = 3;
     private static final int PERMISSIONS_ACCESS_NETWORK_STATE = 4;
 
-//    String enrollImgPath = (Environment.getExternalStorageDirectory().toString() + File.separator
-//            + "iritech" + File.separator + "enroll");
-//    String verifyImgPath = (Environment.getExternalStorageDirectory().toString() + File.separator
-//            + "iritech" + File.separator + "verify");
-
-    String enrollImgPath = "/sdcard" + File.separator
-            + "iritech" + File.separator + "enroll";
-    String verifyImgPath = "/sdcard" + File.separator
-            + "iritech" + File.separator + "verify";
-
-    String identifyImgPath = "/sdcard" + File.separator
-            + "iritech" + File.separator + "identify";
+    String enrollImgPath;
+    String verifyImgPath;
+    String identifyImgPath;
 
     String mUserId;
     private int REQUEST_CODE_IDENTIFY = 1111;
@@ -131,9 +122,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View rootLayout = findViewById(R.id.appBarLayout);
+        rootLayout.requestFocus();
+
         Log.d("LanguageDebug", "MainActivity onCreate - Current language: " + LanguageHelper.getLanguage(this));
 
         editUserId = findViewById(R.id.edit_user_id);
+
 
         CaptureActivity.setUSBActivity(this);
 
@@ -358,49 +353,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateImgPath() {
-        enrollImgPath += File.separator + mUserId;
-        verifyImgPath += File.separator + mUserId;
-        identifyImgPath += File.separator + mUserId;
-
-        File enrollDirFile = new File(enrollImgPath);
-        if (!enrollDirFile.exists()) {
-            boolean wasSuccessful = enrollDirFile.mkdirs();
-            if (wasSuccessful) {
-                Log.d("MyApp", "Directory created: " + enrollImgPath);
-            } else {
-                Log.e("MyApp", "Failed to create directory: " + enrollImgPath);
-            }
-        }
-
-        File verifyDirFile = new File(verifyImgPath);
-        if (!verifyDirFile.exists()) {
-            boolean wasSuccessful = verifyDirFile.mkdirs();
-            if (wasSuccessful) {
-                Log.d("MyApp", "Directory created: " + verifyImgPath);
-            } else {
-                Log.e("MyApp", "Failed to create directory: " + verifyImgPath);
-            }
-        }
-
-        File identifyDirFile = new File(identifyImgPath);
-        if (!identifyDirFile.exists()) {
-            boolean wasSuccessful = identifyDirFile.mkdirs();
-            if (wasSuccessful) {
-                Log.d("MyApp", "Directory created: " + identifyImgPath);
-            }
-            else {
-                Log.e("MyApp", "Failed to create directory: " + identifyImgPath);
-            }
-        }
-    }
-
     private void processResult(int requestCode, Intent data) {
 
         Bitmap leftRenderBm = null;
         Bitmap rightRenderBm = null;
 
-        updateImgPath();
+        String enrollImgPath = "/sdcard" + File.separator
+                + "iritech" + File.separator + "enroll" + File.separator + mUserId;
+
+        String verifyImgPath = "/sdcard" + File.separator
+                + "iritech" + File.separator + "verify" + File.separator + mUserId;
 
         if (requestCode == REQUEST_CODE_CAPTURE) {
             processCaptureResult(data, verifyImgPath, mUserId, "best");
@@ -518,8 +480,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (resultCode == 0)
                 {
-                    processCaptureResult(data, identifyImgPath, mUserId, "best");
-
                     int resultCount = data.getIntExtra(Constants.EXTRA_MATCHING_COUNT, 0);
                     String resultItems = data.getStringExtra(Constants.EXTRA_MATCHING_ITEMS);
 
@@ -539,6 +499,11 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.d("MainActivity", "ID: " + id);
                     }
+
+                    String identifyImgPath = "/sdcard" + File.separator
+                            + "iritech" + File.separator + "identify" + File.separator + id;
+
+                    processCaptureResult(data, identifyImgPath, id, "best");
 
                     //THUC TE
 
@@ -646,6 +611,7 @@ public class MainActivity extends AppCompatActivity {
                 File latestLeftBmp = leftBmpFiles.get(0);
                 Log.d("FileSearch", "Latest left BMP: " + latestLeftBmp.getAbsolutePath());
                 latestLeftBitmap = loadBitmapFromFile(latestLeftBmp.getAbsolutePath());
+                Log.d("FileSearch", "Latest left BMP: " + latestLeftBitmap);
             }
 
             List<File> rightBmpFiles = findBmpFiles(userFolderPath, filePurposeToSearch, "R");
@@ -665,6 +631,7 @@ public class MainActivity extends AppCompatActivity {
                 File latestRightBmp = rightBmpFiles.get(0);
                 Log.d("FileSearch", "Latest right BMP: " + latestRightBmp.getAbsolutePath());
                 latestRightBitmap = loadBitmapFromFile(latestRightBmp.getAbsolutePath());
+                Log.d("FileSearch", "Latest right BMP: " + latestRightBitmap);
             }
 
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -751,8 +718,7 @@ public class MainActivity extends AppCompatActivity {
         return foundFiles;
     }
 
-    private void processCaptureResult(Intent data, String folderPath, String prefix, String filePurpose
-    ) {
+    private void processCaptureResult(Intent data, String folderPath, String prefix, String filePurpose) {
         String imageExt = ".bmp";
         String templateExt = ".tpl";
         Bitmap leftBm = null;
@@ -951,14 +917,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFolder() {
-        File enrollFolder = new File(enrollImgPath);
-        if (!enrollFolder.exists()) {
-            enrollFolder.mkdirs();
+        if(enrollImgPath != null) {
+            File enrollFolder = new File(enrollImgPath);
+            if (!enrollFolder.exists()) {
+                enrollFolder.mkdirs();
+            }
         }
 
-        File verifyFolder = new File(verifyImgPath);
-        if (!verifyFolder.exists()) {
-            verifyFolder.mkdirs();
+        if(verifyImgPath != null) {
+            File verifyFolder = new File(verifyImgPath);
+            if (!verifyFolder.exists()) {
+                verifyFolder.mkdirs();
+            }
+        }
+
+        if(identifyImgPath != null) {
+            File identifyFolder = new File(identifyImgPath);
+            if (!identifyFolder.exists()) {
+                identifyFolder.mkdirs();
+            }
         }
     }
 

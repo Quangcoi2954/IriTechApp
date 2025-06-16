@@ -16,10 +16,6 @@
         "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\drawable\\fake_left.png"
     },
     {
-        "merged": "com.iritech.irissample.app-debug-33:/layout_activity_verify.xml.flat",
-        "source": "com.iritech.irissample.app-main-35:/layout/activity_verify.xml"
-    },
-    {
         "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\mipmap-xxhdpi_fake_right_foreground.webp.flat",
         "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\mipmap-xxhdpi\\fake_right_foreground.webp"
     },
@@ -82,6 +78,10 @@
     {
         "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\mipmap-xxhdpi_ic_successful.webp.flat",
         "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\mipmap-xxhdpi\\ic_successful.webp"
+    },
+    {
+        "merged": "com.iritech.irissample.app-debug-33:/layout_dialog_loading_spinner.xml.flat",
+        "source": "com.iritech.irissample.app-main-35:/layout/dialog_loading_spinner.xml"
     },
     {
         "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
@@ -170,10 +170,6 @@
     {
         "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\mipmap-mdpi_fake_right_foreground.webp.flat",
         "source": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-main-35:\\mipmap-mdpi\\fake_right_foreground.webp"
-    },
-    {
-        "merged": "com.iritech.irissample.app-debug-33:/layout_activity_identify.xml.flat",
-        "source": "com.iritech.irissample.app-main-35:/layout/activity_identify.xml"
     },
     {
         "merged": "C:\\Users\\quang\\.gradle\\daemon\\8.11.1\\com.iritech.irissample.app-debug-33:\\mipmap-xhdpi_ic_successful.webp.flat",
